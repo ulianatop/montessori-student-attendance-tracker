@@ -1,6 +1,6 @@
 let verifiedStudent = null;
 
-async function findStudent() {
+export async function findStudent() { // Ian L added export keyword to enable import into AttendanceTracker.jsx
     const pin = document.getElementById("login_id").value.trim();
     const first = document.getElementById("student_firstname").value.trim();
     const last = document.getElementById("student_lastname").value.trim();
