@@ -36,3 +36,8 @@
             justify-content: center;
             margin-top: 20px;
         }
+		
+		.boxborder {
+			padding: 4px;
+			border: 1px solid blue;
+		}
