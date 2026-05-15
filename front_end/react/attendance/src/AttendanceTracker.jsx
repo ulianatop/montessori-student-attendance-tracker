@@ -17,7 +17,7 @@ return(
 <br /><br /><br /><br /><br />
 <h1>Northern Lights Montessori Attendance Tracker</h1>
 <div className="center">
-<div style={{padding: "4px", border: "1px solid yellow"}}>
+<div className="boxborder">
   <label htmlFor="login_id">Login PIN:&nbsp;&nbsp;</label>
   <input type="text" id="login_id" value={loginID}
   onChange={(e) => setLoginID(e.target.value)} />
