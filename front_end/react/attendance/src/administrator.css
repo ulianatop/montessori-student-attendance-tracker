@@ -1,0 +1,38 @@
+        body {
+            background-image: url(background.jpg);
+            background-size: auto;
+            background-position: center;
+        }
+        h1 {
+            font-family: Georgia, serif;
+            text-align: center;
+            font-size: 50px;
+            color: lightblue;
+        }
+
+        
+
+        label {
+            font-family: Georgia, serif;
+            color: yellow;
+            font-weight: bold;
+        }
+        .center {
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: yellow;
+            box-sizing: border-box;
+        }
+        .right{
+            display: flex;
+            justify-content: center;
+			font-size:24px;
+			color: red
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
