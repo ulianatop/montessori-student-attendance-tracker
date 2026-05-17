@@ -1,2 +1,0 @@
-# CSD350-project
-
