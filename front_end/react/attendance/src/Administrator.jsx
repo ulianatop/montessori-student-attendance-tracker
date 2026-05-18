@@ -43,15 +43,6 @@ return(
       <label>Deactivate admin user</label>
       <input type="checkbox" id="deactivateUser" value="deactivateUser" />
     </div>
-	<div className="right">
-      <label>Create new authorized adult user</label>
-      <input type="checkbox" id="createAdult" value="createAdult" />
-    </div>
-
-    <div className="right">
-      <label>Deactivate authorized adult user</label>
-      <input type="checkbox" id="deactivateAdult" value="deactivateAdult" />
-    </div>
 
     <div className="right">
       <label>Run attendance report</label>
