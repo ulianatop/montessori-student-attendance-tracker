@@ -40,11 +40,11 @@ db.connect(err => {
 
 // POST: receive form data
 app.post("/submit", (req, res) => {
-    const { StudentName, AttendanceStatus } = req.body;
+    const { StudentFirstName, StudentLastName, AttendanceStatus } = req.body;
 
     db.query(
-        "INSERT INTO student (StudentName, AttendanceStatus) VALUES (?, ?)",
-        [StudentName, AttendanceStatus],
+        "INSERT INTO STUDENT (StudentFirstName, StudentLastName, AttendanceStatus) VALUES (?, ?, ?)",
+        [StudentFirstName, StudentLastName, AttendanceStatus],
         (err, result) => {
             if (err) {
                 res.status(500).json({ error: err });
@@ -58,7 +58,7 @@ app.post("/submit", (req, res) => {
 // GET: fetch data from database
 app.get("/data", (req, res) => {
     db.query(
-        "SELECT StudentID, StudentName, AttendanceStatus FROM student",
+        "SELECT StudentID, StudentFirstName, StudentLastName, AttendanceStatus FROM STUDENT",
         (err, results) => {
             if (err) {
                 res.status(500).json({ error: err });
@@ -80,7 +80,7 @@ app.post("/toggle-attendance", (req, res) => {
         AttendanceStatus === "Checked In" ? "Checked Out" : "Checked In";
 
     db.query(
-        "UPDATE student SET AttendanceStatus = ? WHERE StudentID = ?",
+        "UPDATE STUDENT SET AttendanceStatus = ? WHERE StudentID = ?",
         [newStatus, StudentID],
         (err) => {
             if (err) return res.status(500).json({ error: err });
@@ -90,28 +90,33 @@ app.post("/toggle-attendance", (req, res) => {
 });
 
 app.post("/verify-pin", (req, res) => {
-    const { pin } = req.body;
+    const { pin, firstName, lastName } = req.body;
 
     const sql = `
-        SELECT s.StudentID, s.StudentName, s.AttendanceStatus
+        SELECT s.StudentID, s.StudentFirstName, s.StudentLastName, s.AttendanceStatus
         FROM STUDENT s
         JOIN STUDENT_AUTHORIZED_ADULT saa ON s.StudentID = saa.StudentID
         JOIN AUTHORIZED_ADULT aa ON saa.AdultID = aa.AdultID
         WHERE aa.AdultCode = ?
+          AND s.StudentFirstName = ?
+          AND s.StudentLastName = ?
+          AND s.Active = TRUE
+          AND aa.Active = TRUE
+          AND saa.Active = TRUE
     `;
 
-    db.query(sql, [pin], (err, results) => {
+    db.query(sql, [pin, firstName, lastName], (err, results) => {
         if (err) {
             console.error("SQL ERROR:", err);
-            return res.status(500).json({
-                error: err.sqlMessage
+            return res.status(500).json({ 
+                error: err.message 
             });
         }
 
-        if (!results || results.length === 0) {
+        if (!Array.isArray(results) || results.length === 0) {  
             return res.json({
                 success: false,
-                message: "Invalid PIN"
+                message: "Invalid PIN or student name"
             });
         }
 

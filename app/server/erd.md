@@ -20,6 +20,7 @@
         }
 
         AUTHORIZED_ADULT {
+            int AdultID PK
             string AdultFirstName
             string AdultLastName
             string AdultCode
