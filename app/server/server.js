@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, "front end")));
+app.use(express.static(path.join(__dirname, "..", "..", "front_end")));
 
 app.use(cors());
 app.use(express.json());
@@ -90,40 +90,48 @@ app.post("/toggle-attendance", (req, res) => {
 });
 
 app.post("/verify-pin", (req, res) => {
-    const { pin, firstName, lastName } = req.body;
+    const { pin, firstName, lastName } = req.body || {};
+
+    const pinString = String(pin || "").trim();
+
+    if (!pinString) {
+        return res.status(400).json({ success: false, message: "Missing PIN" });
+    }
+
+    const conditions = [
+        "aa.AdultCode = ?",
+        "s.Active = TRUE",
+        "aa.Active = TRUE",
+        "saa.Active = TRUE"
+    ];
+
+    const params = [pinString];
+
+    if (firstName && lastName) {
+        conditions.push("s.StudentFirstName = ?");
+        conditions.push("s.StudentLastName = ?");
+        params.push(firstName.trim(), lastName.trim());
+    }
 
     const sql = `
         SELECT s.StudentID, s.StudentFirstName, s.StudentLastName, s.AttendanceStatus
         FROM STUDENT s
         JOIN STUDENT_AUTHORIZED_ADULT saa ON s.StudentID = saa.StudentID
         JOIN AUTHORIZED_ADULT aa ON saa.AdultID = aa.AdultID
-        WHERE aa.AdultCode = ?
-          AND s.StudentFirstName = ?
-          AND s.StudentLastName = ?
-          AND s.Active = TRUE
-          AND aa.Active = TRUE
-          AND saa.Active = TRUE
+        WHERE ${conditions.join(" AND ")}
     `;
 
-    db.query(sql, [pin, firstName, lastName], (err, results) => {
+    db.query(sql, params, (err, results) => {
         if (err) {
             console.error("SQL ERROR:", err);
-            return res.status(500).json({ 
-                error: err.message 
-            });
+            return res.status(500).json({ error: err.message });
         }
 
-        if (!Array.isArray(results) || results.length === 0) {  
-            return res.json({
-                success: false,
-                message: "Invalid PIN or student name"
-            });
+        if (!Array.isArray(results) || results.length === 0) {
+            return res.json({ success: false, message: "Invalid PIN or no matching student" });
         }
 
-        res.json({
-            success: true,
-            student: results[0]
-        });
+        res.json({ success: true, student: results[0] });
     });
 });
 

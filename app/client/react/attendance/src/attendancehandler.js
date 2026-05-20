@@ -2,13 +2,9 @@ let verifiedStudent = null;
 
 export async function findStudent() { // Ian L added export keyword to enable import into AttendanceTracker.jsx
     const pin = document.getElementById("login_id").value.trim();
-    const first = document.getElementById("student_firstname").value.trim();
-    const last = document.getElementById("student_lastname").value.trim();
-
     const resultDiv = document.getElementById("result");
     resultDiv.innerHTML = "";
 
-    // Verify pin + student
     const res = await fetch("http://localhost:3000/verify-pin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -22,22 +18,12 @@ export async function findStudent() { // Ian L added export keyword to enable im
         return;
     }
 
-    // Match name
-    const fullName = `${first} ${last}`.toLowerCase();
-
-    if (data.student.StudentName.toLowerCase() !== fullName) {
-        resultDiv.textContent = "Invalid Student Name.";
-        return;
-    }
-
     verifiedStudent = data.student;
 
-    // Show Info
     const statusText = document.createElement("p");
     statusText.textContent =
-        `${verifiedStudent.StudentName} - ${verifiedStudent.AttendanceStatus}`;
+        `${verifiedStudent.StudentFirstName} ${verifiedStudent.StudentLastName} - ${verifiedStudent.AttendanceStatus}`;
 
-    // Make button
     const btn = document.createElement("button");
     btn.textContent =
         verifiedStudent.AttendanceStatus === "Checked In"
