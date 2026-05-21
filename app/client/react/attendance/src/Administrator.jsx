@@ -1,15 +1,15 @@
 import "./administrator.css";
 import React, {useState} from "react";
-//import { adminTasks } from "./administratortasks";
+import { adminTasks } from "./administratortaskshandler";
 
-export default function AdministratorTask(){
-  const [AdminTask, setAdminTask] = useState("");
+export default function Administrator(){
+  const [adminTask, setAdminTask] = useState("");
   const [result, setResult] = useState("");
-  const adminTasks=() => {
-	   //need logic in here for adminTasks. Probably will remove it since importing this function from a js file (to be implemented still).
-  };  
-	
-	
+  const [successMessage, setSuccessMessage] = useState("");
+  
+  const handleButtonClick = async () => {
+      await adminTasks(setSuccessMessage);
+    };
 return(
 <> 
 <h1>Administrative Tasks</h1>
@@ -21,7 +21,7 @@ return(
 
     <div className="right">
       <label>Add Student</label>
-      <input type="checkbox" id="addStudent" value="addStudent" />
+      <input type="checkbox" id="addStudent" value="addStudent"  />
     </div>
 
     <div className="right">
@@ -43,8 +43,7 @@ return(
       <label>Deactivate admin user</label>
       <input type="checkbox" id="deactivateUser" value="deactivateUser" />
     </div>
-
-    <div className="right">
+	<div className="right">
       <label>Create new authorized adult user</label>
       <input type="checkbox" id="createAdult" value="createAdult" />
     </div>
@@ -60,9 +59,15 @@ return(
     </div>
 
     <div className="buttons">
-      <input type="submit" value="Do Task" />
+      <button type="button" onClick={handleButtonClick}>Do Task </button>
     </div>
-
+	<div id="result" className="center">
+      {successMessage && (
+                <p style={{ color: "purple", fontWeight: "bold", marginTop: "15px" }}>
+                    {successMessage}
+                </p>
+            )}
+    </div>
   </div>
 </div>
 

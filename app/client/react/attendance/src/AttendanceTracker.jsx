@@ -1,15 +1,16 @@
 import "./attendancetracker.css";
 import React, {useState} from "react";
 import { findStudent } from "./attendancehandler";
+import { adminTasks } from "./administratortaskshandler";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function AttendanceTracker(){
   const [loginID, setLoginID] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [result, setResult] = useState("");
-  const adminTasks=() => {
-	  //need logic in here for adminTasks. Probably will remove it since importing this function from a js file (to be implemented still).
-  };  
+  const navigate = useNavigate();
 	
 	
 return(
@@ -63,7 +64,7 @@ return(
 
 <div className="lower">
   <br /><br /><br /><br /><br /><br />
-  <input type="submit" value="Admin Tasks" onClick={adminTasks} />
+  <input type="button" value="Admin Tasks" onClick={() => navigate('/admin-tasks')}/>
 </div>
 
 </>
