@@ -1,13 +1,26 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+
 const app = express();
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, "front end")));
+app.use(express.static(path.join(__dirname, "..", "..", "front_end")));
 
 app.use(cors());
 app.use(express.json());
+
+app.use((req, res, next) => {
+    // debug logging middleware
+    console.log(`
+            Incoming Request!:
+            Method:${req.method}
+            URL:${req.url}
+            Body:${JSON.stringify(req.body)}
+        `)
+        next()
+})
+
 
 // Connect to SQL
 const db = mysql.createConnection({
@@ -27,11 +40,11 @@ db.connect(err => {
 
 // POST: receive form data
 app.post("/submit", (req, res) => {
-    const { StudentName, AttendanceStatus } = req.body;
+    const { StudentFirstName, StudentLastName, AttendanceStatus } = req.body;
 
     db.query(
-        "INSERT INTO student (StudentName, AttendanceStatus) VALUES (?, ?)",
-        [StudentName, AttendanceStatus],
+        "INSERT INTO STUDENT (StudentFirstName, StudentLastName, AttendanceStatus) VALUES (?, ?, ?)",
+        [StudentFirstName, StudentLastName, AttendanceStatus],
         (err, result) => {
             if (err) {
                 res.status(500).json({ error: err });
@@ -45,7 +58,7 @@ app.post("/submit", (req, res) => {
 // GET: fetch data from database
 app.get("/data", (req, res) => {
     db.query(
-        "SELECT StudentID, StudentName, AttendanceStatus FROM student",
+        "SELECT StudentID, StudentFirstName, StudentLastName, AttendanceStatus FROM STUDENT",
         (err, results) => {
             if (err) {
                 res.status(500).json({ error: err });
@@ -67,7 +80,7 @@ app.post("/toggle-attendance", (req, res) => {
         AttendanceStatus === "Checked In" ? "Checked Out" : "Checked In";
 
     db.query(
-        "UPDATE student SET AttendanceStatus = ? WHERE StudentID = ?",
+        "UPDATE STUDENT SET AttendanceStatus = ? WHERE StudentID = ?",
         [newStatus, StudentID],
         (err) => {
             if (err) return res.status(500).json({ error: err });
@@ -77,51 +90,50 @@ app.post("/toggle-attendance", (req, res) => {
 });
 
 app.post("/verify-pin", (req, res) => {
-    const { pin } = req.body;
+    const { pin, firstName, lastName } = req.body || {};
+
+    const pinString = String(pin || "").trim();
+
+    if (!pinString) {
+        return res.status(400).json({ success: false, message: "Missing PIN" });
+    }
+
+    const conditions = [
+        "aa.AdultCode = ?",
+        "s.Active = TRUE",
+        "aa.Active = TRUE",
+        "saa.Active = TRUE"
+    ];
+
+    const params = [pinString];
+
+    if (firstName && lastName) {
+        conditions.push("s.StudentFirstName = ?");
+        conditions.push("s.StudentLastName = ?");
+        params.push(firstName.trim(), lastName.trim());
+    }
 
     const sql = `
-        SELECT s.StudentID, s.StudentName, s.AttendanceStatus
+        SELECT s.StudentID, s.StudentFirstName, s.StudentLastName, s.AttendanceStatus
         FROM STUDENT s
         JOIN STUDENT_AUTHORIZED_ADULT saa ON s.StudentID = saa.StudentID
         JOIN AUTHORIZED_ADULT aa ON saa.AdultID = aa.AdultID
-        WHERE aa.AdultCode = ?
+        WHERE ${conditions.join(" AND ")}
     `;
 
-    db.query(sql, [pin], (err, results) => {
+    db.query(sql, params, (err, results) => {
         if (err) {
             console.error("SQL ERROR:", err);
-            return res.status(500).json({
-                error: err.sqlMessage
-            });
+            return res.status(500).json({ error: err.message });
         }
 
-        if (!results || results.length === 0) {
-            return res.json({
-                success: false,
-                message: "Invalid PIN"
-            });
+        if (!Array.isArray(results) || results.length === 0) {
+            return res.json({ success: false, message: "Invalid PIN or no matching student" });
         }
 
-        res.json({
-            success: true,
-            student: results[0]
-        });
+        res.json({ success: true, student: results[0] });
     });
 });
-
-app.post("/:adminTask", (req, res) => {
-
-    const task = req.params.adminTask; 
-
-    if (task === "addStudent") {
-        return res.json({message: "TEST SUCCESS"});
-    }
-    if (task === "createUser") {
-        return res.json({message: "USER CREATED SUCCESSFULLY"});
-    }
-	return res.status(404).json({ message: `Task ${task} handler not found on server`});
-});
-
 
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");
