@@ -38,6 +38,9 @@ db.connect(err => {
     }
 });
 
+// Routes
+// TODO: seperate out into its own file or structure(?)
+
 // POST: receive form data
 app.post("/submit", (req, res) => {
     const { StudentFirstName, StudentLastName, AttendanceStatus } = req.body;
@@ -55,6 +58,22 @@ app.post("/submit", (req, res) => {
     );
 });
 
+app.post("/:adminTask", (req, res) => {
+    const task = req.params.adminTask;
+     
+    switch (req.params.adminTask) {
+        case "addStudent":
+            return res.json({message: "TEST SUCCESS"});
+            break;
+        case "createUser":
+            return res.json({message: "USER CREATED SUCCESSFULLY"});
+            break;
+        // TODO: other tasks below
+        default:
+            return res.status(404).json({message: `Task ${task} handler not found on server!`})
+            break;
+    }
+})
 // GET: fetch data from database
 app.get("/data", (req, res) => {
     db.query(
