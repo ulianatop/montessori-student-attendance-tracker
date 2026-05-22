@@ -58,22 +58,6 @@ app.post("/submit", (req, res) => {
     );
 });
 
-app.post("/:adminTask", (req, res) => {
-    const task = req.params.adminTask;
-     
-    switch (req.params.adminTask) {
-        case "addStudent":
-            return res.json({message: "TEST SUCCESS"});
-            break;
-        case "createUser":
-            return res.json({message: "USER CREATED SUCCESSFULLY"});
-            break;
-        // TODO: other tasks below
-        default:
-            return res.status(404).json({message: `Task ${task} handler not found on server!`})
-            break;
-    }
-})
 // GET: fetch data from database
 app.get("/data", (req, res) => {
     db.query(
@@ -153,6 +137,23 @@ app.post("/verify-pin", (req, res) => {
         res.json({ success: true, student: results[0] });
     });
 });
+
+app.post("/:adminTask", (req, res) => {
+    const task = req.params.adminTask;
+     
+    switch (req.params.adminTask) {
+        case "addStudent":
+            return res.json({message: "TEST SUCCESS"});
+            break;
+        case "createUser":
+            return res.json({message: "USER CREATED SUCCESSFULLY"});
+            break;
+        // TODO: other tasks below
+        default:
+            return res.status(404).json({message: `Task ${task} handler not found on server!`})
+            break;
+    }
+})
 
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");
