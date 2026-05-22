@@ -2,19 +2,33 @@ let verifiedStudent = null;
 
 export async function findStudent() { // Ian L added export keyword to enable import into AttendanceTracker.jsx
     const pin = document.getElementById("login_id").value.trim();
+    const first = document.getElementById("student_firstname").value.trim();
+    const last = document.getElementById("student_lastname").value.trim();
+
     const resultDiv = document.getElementById("result");
     resultDiv.innerHTML = "";
 
+    // Check if all parts exist
+    if (!pin || !first || !last) {
+        resultDiv.textContent = "Please enter PIN, first name and last name.";
+        return;
+    }
+
+    // Verify pin and student
     const res = await fetch("http://localhost:3000/verify-pin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pin })
+        body: JSON.stringify({
+            pin,
+            firstName: first,
+            lastName: last
+        })
     });
 
     const data = await res.json();
 
     if (!data.success) {
-        resultDiv.textContent = "Invalid PIN.";
+        resultDiv.textContent = "Invalid PIN or student name";
         return;
     }
 
