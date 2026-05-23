@@ -148,32 +148,6 @@ app.post("/:adminTask", (req, res) => {
         case "createUser":
             return res.json({message: "USER CREATED SUCCESSFULLY"});
             break;
-		case "checkInOut":
-		const htmlPayload = `
-                <label for="login_id">Login PIN:&nbsp;&nbsp;</label>
-                <input type="text" id="login_id" />
-                <br />
-
-                <p>Student's Name:</p>
-
-                <label for="student_firstname">First:</label>
-                <input type="text" id="student_firstname" />
-                <br />
-
-                <label for="student_lastname">Last:</label>
-                <input type="text" id="student_lastname" />
-                <br />
-                
-                <div class="buttons">
-                    <input type="button" value="Find Student" id="btn-find-student" />
-                </div>
-            `;
-		
-		res.setHeader('Content-Type', 'application/json');
-		return res.status(200).json({ 
-        success: true,
-        html: htmlPayload 
-		});
         // TODO: other tasks below
         default:
             return res.status(404).json({message: `Task ${task} handler not found on server!`})

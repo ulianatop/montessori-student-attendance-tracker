@@ -17,15 +17,14 @@ export async function adminTasks(taskName, onSuccess){
 	
 	const data = await res.json();
 	
-	if (data && data.html) {
-      onSuccess(data.html);
-    } else if (data && data.message) {
-      onSuccess(data.message);
+	if (data && data.message) {
+        onSuccess(data.message);
     } else {
       onSuccess("Received unexpected empty response format.");
     }
-  } catch (error) {
-    console.error("That didn't work,", error);
-    onSuccess("Failed to reach backend server.");
-  }
+   } catch (error){
+	  console.error("That didn't work,",error);
+	  onSuccess("Failed to reach backend server.");
+	}
+
 }

@@ -5,31 +5,15 @@ export async function findStudent() { // Ian L added export keyword to enable im
     const first = document.getElementById("student_firstname").value.trim();
     const last = document.getElementById("student_lastname").value.trim();
 
-   const resultDiv = document.getElementById("result");
-    if (!resultDiv) {
-        console.error("Main container #result not found.");
-        return;
-    }
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
 
-    // 2. Look for a status box inside it, or create one on the fly so we don't erase inputs
-    let displayDiv = document.getElementById("attendance-status-display");
-    if (!displayDiv) {
-        displayDiv = document.createElement("div");
-        displayDiv.id = "attendance-status-display";
-        displayDiv.style.marginTop = "15px";
-		displayDiv.className = "center";
-        resultDiv.appendChild(displayDiv); // Places it cleanly below the form
-    }
-    displayDiv.innerHTML = ""; // Clear only the status text, keeping inputs intact
-
-    // 3. Keep your strict requirement matching your database checks
+    // Check if all parts exist
     if (!pin || !first || !last) {
-        displayDiv.textContent = "Please enter PIN, first name and last name.";
-        displayDiv.style.color = "red";
+        resultDiv.textContent = "Please enter PIN, first name and last name.";
         return;
     }
 
-try{
     // Verify pin and student
     const res = await fetch("http://localhost:3000/verify-pin", {
         method: "POST",
@@ -77,10 +61,6 @@ try{
         findStudent(); // refresh display
     };
 
-        displayDiv.appendChild(statusText);
-        displayDiv.appendChild(btn);
- } catch (error) {
-	console.error("Error executing database lookup routing loop:", error);
-	displayDiv.textContent = "Server communication error.";
- }
+    resultDiv.appendChild(statusText);
+    resultDiv.appendChild(btn);
 }
