@@ -19,4 +19,9 @@ export default class StudentController{
         res.json(student);
         next();
     }
+
+    async createStudent(req, res, next){
+        const studentId = req.params["studentId"];
+        
+    }
 }

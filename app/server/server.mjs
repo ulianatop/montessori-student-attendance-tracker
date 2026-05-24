@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors"
-import Database from "./database.mjs";
 import dbConfig from "./dbConfig.mjs";
+import Database from "./database.mjs";
+import StudentRouter from "./api/routes/students/studentRouter.mjs";
+import StudentController from "./api/routes/students/studentController.mjs";
 
 
 const app = express();
@@ -28,7 +30,8 @@ const db = new Database(dbConfig);
 
 db.connect();
 
-
+const studentRouter = new StudentRouter(db);
+studentRouter.registerGetRoutes();
 
 // Routes
 // TODO: seperate out into its own file or structure(?)
