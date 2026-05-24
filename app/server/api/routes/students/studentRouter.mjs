@@ -1,7 +1,7 @@
 // Student router module for sending data to a student controller, only routes data
 import { Router } from "express";
 import { request, response } from "express";
-import StudentController from "./StudentController.mjs";
+import StudentController from "./studentController.mjs";
 import Database from "../../../database.mjs";
 
 export default class StudentRouter{
