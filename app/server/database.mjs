@@ -64,6 +64,7 @@ export default class Database {
             if (row.affectedRows !== 1) {
                 throw new Error("No student inserted, check parameters?");
             }
+            return row.insertId;
         } catch (error) {
             console.log(`Error creating student: ${error}`);
         }
@@ -109,6 +110,7 @@ export default class Database {
             if (row.changedRows !== 1) {
                 throw new Error("student attendance field unchanged");
             }
+            return row.affectedRows;
         } catch (error) {
             console.log(`Error updating Student's attendance status: ${error}`);
         }
@@ -124,6 +126,7 @@ export default class Database {
             if (row.changedRows !== 1) {
                 throw new Error("student name field unchanged");
             }
+            return row.affectedRows;
         } catch (error) {
             console.log(`Error updating attendance status: ${error}`);
         }
@@ -139,6 +142,7 @@ export default class Database {
             if (row.affectedRows !== 1) {
                 throw new Error("Student not deleted");
             }
+            return row.affectedRows;
         } catch (error) {
             console.log(`Error deleting student: ${error}`);
         }
@@ -159,6 +163,7 @@ export default class Database {
             if (row.affectedRows !== 1) {
                 throw new Error("No student inserted, check parameters?");
             }
+            return row.insertId;
         } catch (error) {
             console.log(`Error creating student: ${error}`);
         }
@@ -204,6 +209,7 @@ export default class Database {
             if (row.changedRows !== 1) {
                 throw new Error("Authorized Adult attendance status unchanged");
             }
+            return row.affectedRows;
         } catch (error) {
             console.log(`Error updating Authorized Adult's attendance status: ${error}`);
         }
@@ -216,9 +222,10 @@ export default class Database {
 
         try {
             const [row, results] = await this.conn.execute("UPDATE AUTHORIZED_ADULT SET FirstName = ?, LastName = ? WHERE AdultID = ?", [firstName, lastName, id]);
-            if (row.changedRows !== 1) {
+            if (row.affectedRows !== 1) {
                 throw new Error("Authorized Adult name unchanged");
             }
+            return row.affectedRows;
         } catch (error) {
             console.log(`Error updating Authorized Adult name: ${error}`);
         }
@@ -234,6 +241,7 @@ export default class Database {
             if (row.affectedRows !== 1) {
                 throw new Error("Authorized Adult not deleted");
             }
+            return row.affectedRows;
         } catch (error) {
             console.log(`Error deleting Authorized Adult: ${error}`);
         }
@@ -251,6 +259,7 @@ export default class Database {
                 INSERT INTO STUDENT_AUTHORIZED_ADULT \
                 (StudentID, AdultID) \
                 VALUES", [studentId, adultId]);
+            return row.insertId;
         } catch (error) {
             console.log(`Error creating studentAuthAdult relationship: ${error}`);
         }
