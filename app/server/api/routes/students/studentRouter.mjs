@@ -1,7 +1,7 @@
 // Student router module for sending data to a student controller, only routes data
 import { Router } from "express";
 import { request, response } from "express";
-import StudentController from "./studentController.mjs";
+import StudentController from "./StudentController.mjs";
 import Database from "../../../database.mjs";
 
 export default class StudentRouter{
@@ -12,7 +12,18 @@ export default class StudentRouter{
     }
 
     async registerGetRoutes(){
-        // all students
-        this.router.get('/api/v1/student/', this.controller.getStudents);
+        
+        this.router.get(
+            // all students
+            '/api/v1/student/', 
+            this.controller.getStudents
+        );
+
+        this.router.get(
+            // single student
+            '/api/v1/student/:studentId',
+            this.controller.getStudentById
+        )
+        
     }
 }
