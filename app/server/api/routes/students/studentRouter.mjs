@@ -11,19 +11,31 @@ export default class StudentRouter{
         this.controller = new StudentController(this.db);
     }
 
+    // GET routes
     async registerGetRoutes(){
         
         this.router.get(
             // all students
-            '/api/v1/student/', 
+            '/api/v1/students', 
             this.controller.getStudents
         );
 
         this.router.get(
             // single student
-            '/api/v1/student/:studentId',
+            '/api/v1/students/:studentId',
             this.controller.getStudentById
         )
         
     }
+
+    // POST routes
+    async registerPostRoutes(){
+        this.router.post(
+            "/api/v1/students",
+            this.controller.createStudent
+        )
+    }
+    // PUT routes
+    // DELETE routes
+    // PATCH routes
 }

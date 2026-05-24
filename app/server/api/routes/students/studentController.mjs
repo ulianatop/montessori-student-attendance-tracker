@@ -9,21 +9,23 @@ export default class StudentController {
 
     async getStudents(req, res, next) {
         const students = await this.db.getStudents();
-        res.json(students);
+        res.status(200)
+        .json(students);
         next();
     }
 
     async getStudentById(req, res, next) {
         const studentId = req.params["studentId"];
         const student = await this.db.getStudentById(studentId);
-        res.json(student);
+        res.status(200).json(student);
         next();
     }
 
     async createStudent(req, res, next) {
         const { StudentFirstName, StudentLastName, AttendanceStatus } = req.body;
         const insertId = await this.db.createStudent(StudentFirstName, StudentLastName, AttendanceStatus);
-        res.status(200).json({
+        res.status(200)
+        .json({
             studentId: insertId
         })
         next();
