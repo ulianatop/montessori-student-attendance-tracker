@@ -7,7 +7,7 @@ export default class StudentController {
         this.db = db;
     }
 
-    // GET
+    // GET:
     async getStudents(req, res, next) {
         const students = await this.db.getStudents();
         res.status(200)
@@ -22,18 +22,19 @@ export default class StudentController {
         next();
     }
 
-    // POST
+    // POST:
     async createStudent(req, res, next) {
         const { StudentFirstName, StudentLastName, AttendanceStatus } = req.body;
         const insertId = await this.db.createStudent(StudentFirstName, StudentLastName, AttendanceStatus);
         res.status(200)
         .json({
-            message: success,
+            success: true,
             studentId: insertId
         })
         next();
     }
 
+    // UPDATE:
     // toggle attendance from Jacob
     async updateStudentAttendance(req, res, next){
         const {StudentID, AttendanceStatus} = req.body;
@@ -41,7 +42,7 @@ export default class StudentController {
 
         await this.db.updateStudentAttendance(StudentID, newStatus);
         res.status(200).json({
-            message: success,
+            success: true,
             newAttendanceStatus: newStatus
         })
         next();
