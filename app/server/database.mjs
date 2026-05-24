@@ -224,13 +224,13 @@ export default class Database {
         }
     }
 
-    async deleteStudent(id) {
+    async deleteAuthAdult(id) {
         if (!this.conn) {
             throw new Error("Db not connected!");
         }
 
         try {
-            const [row, resut] = await this.conn.execute("DELETE AUTHORIZED_ADULT WHERE AdultID = ?");
+            const [row, resut] = await this.conn.execute("DELETE AUTHORIZED_ADULT WHERE AdultID = ?", [id]);
             if (row.affectedRows !== 1) {
                 throw new Error("Authorized Adult not deleted");
             }
