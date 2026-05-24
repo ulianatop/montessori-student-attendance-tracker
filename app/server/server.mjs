@@ -35,7 +35,7 @@ studentRouter.registerGetRoutes();
 
 // Routes
 // TODO: seperate out into its own file or structure(?)
-
+// done
 // POST: receive form data
 // app.post("/submit", (req, res) => {
 //     const { StudentFirstName, StudentLastName, AttendanceStatus } = req.body;
@@ -54,6 +54,7 @@ studentRouter.registerGetRoutes();
 // });
 
 // // GET: fetch data from database
+//done
 // app.get("/data", (req, res) => {
 //     db.query(
 //         "SELECT StudentID, StudentFirstName, StudentLastName, AttendanceStatus FROM STUDENT",

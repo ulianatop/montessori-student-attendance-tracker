@@ -35,7 +35,13 @@ export default class StudentRouter{
             this.controller.createStudent
         )
     }
-    // PUT routes
+    // UPDATE routes
+    async registerUpdateRoutes(){
+        this.router.update(
+            "/api/v1/students/:studentId",
+            this.controller.updateStudentAttendance
+        )
+    }
     // DELETE routes
     // PATCH routes
 }
