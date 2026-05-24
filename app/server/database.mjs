@@ -1,4 +1,4 @@
-// Database class, performs only database operations with a connection pool
+// Database class, performs only database Create Read Update Delete (CRUD) operations with a connection pool
 // https://sidorares.github.io/node-mysql2/docs#using-connection-pools
 
 // TODO: on Student, and Auth_Adult delete cascade in the database SQL? I think deleting from student or adult should cascade the deletion
@@ -287,7 +287,7 @@ export default class Database {
     }
 
     
-    readStudentAuthFromAdult(adultId){
+    async readStudentAuthFromAdult(adultId){
         if (!this.conn) {
             throw new Error("Db not connected!");
         }
@@ -302,7 +302,7 @@ export default class Database {
         }
     }
 
-    readStudentAuthFromStudent(studentId){
+    async readStudentAuthFromStudent(studentId){
          if (!this.conn) {
             throw new Error("Db not connected!");
         }
