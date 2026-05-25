@@ -1,21 +1,38 @@
 import "./administrator.css";
-import React, {useState} from "react";
+import React, { useState, useCallback } from "react";
 import { adminTasks } from "./administratortaskshandler";
+import { findStudent } from "./attendancehandler";
 
-export default function Administrator(){
+if (typeof window !== "undefined") {
+  window.findStudent = findStudent;
+}
+
+export default function Administrator() {
   const [adminTask, setAdminTask] = useState("");
-  const [result, setResult] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  
+  const resultRef = useCallback((node) => {
+    if (node !== null) {
+      const findStudentBtn = node.querySelector("#btn-find-student") || 
+                             node.querySelector("button");
+
+      if (findStudentBtn) {
+        console.log("Found the button inside DOM! Attaching listener...");
+        findStudentBtn.removeAttribute("onclick");
+        findStudentBtn.removeEventListener("click", findStudent);
+        findStudentBtn.addEventListener("click", findStudent);
+      }
+    }
+  }, [successMessage]);
+
   const handleButtonClick = async () => {
-	if (!adminTask) {
+    if (!adminTask) {
       setSuccessMessage("Please select a task first.");
       return;
     }
-	console.log("Selected adminTask:", adminTask);
 
-      await adminTasks(adminTask, setSuccessMessage);
-    };
+    console.log("Selected adminTask:", adminTask);
+    await adminTasks(adminTask, setSuccessMessage);
+  };
 	
 return(
 <> 
@@ -76,12 +93,8 @@ return(
     <div className="buttons">
       <button type="button" onClick={handleButtonClick}>Do Task </button>
     </div>
-	<div id="result" className="center">
-      {successMessage && (
-                <p style={{ color: "white", fontWeight: "bold", marginTop: "15px" }}>
-                    {successMessage}
-                </p>
-            )}
+	<div id="result" className="center" ref={resultRef}>
+            <div dangerouslySetInnerHTML={{ __html: successMessage }} />
     </div>
   </div>
 </div>
