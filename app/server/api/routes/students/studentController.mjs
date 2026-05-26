@@ -8,22 +8,22 @@ export default class StudentController {
     }
 
     // GET:
-    getStudents = (req, res, next) => {
+    getStudents = async (req, res, next) => {
         const students = await this.db.getStudents();
         res.status(200)
         .json(students);
         next();
     }
 
-    getStudentById = (req, res, next)  => {
+    getStudentById = async (req, res, next)  => {
         const studentId = req.params["studentId"];
-        const student = await this.db.getStudentById(studentId);
+        const student = await this.db.readStudent(studentId);
         res.status(200).json(student);
         next();
     }
 
     // POST:
-    createStudent = (req, res, next) => {
+    createStudent = async (req, res, next) => {
         const { StudentFirstName, StudentLastName, AttendanceStatus } = req.body;
         const insertId = await this.db.createStudent(StudentFirstName, StudentLastName, AttendanceStatus);
         res.status(200)
@@ -36,7 +36,7 @@ export default class StudentController {
 
     // UPDATE:
     // toggle attendance from Jacob
-    updateStudentAttendance = (req, res, next) => {
+    updateStudentAttendance = async (req, res, next) => {
         const {StudentID, AttendanceStatus} = req.body;
         const newStatus = AttendanceStatus === "Checked In" ? "Checked Out" : "Checked In";
 
