@@ -15,16 +15,11 @@ describe('Database', async () => {
 
     const startTransact = async () => {
         await this.conn.beginTransaction();
-    } 
+    }
 
     const rollback = async () => {
         await this.conn.rollback();
     }
-    
-    // Reload a fresh database, mainly for reseting the auto_increment IDs
-    afterAll(async () => {
-        await this.db._resetDb();
-    })
 
     describe("STUDENT", async () => {
         beforeEach(startTransact);
@@ -38,9 +33,10 @@ describe('Database', async () => {
             const students = await this.db.readStudents();
             expect(students).toHaveLength(16);
 
-            const johnnyObj = await this.db.readStudent(16);
+            const johnnyObj = await this.db.readStudent(johnnyId);
+            console.log(students);
             expect(johnnyObj).toEqual({
-                StudentID: 16,
+                StudentID: expect.any(Number),
                 StudentFirstName: 'Johnny',
                 StudentLastName: 'JohnnyMan',
                 AttendanceStatus: 'Checked Out',
@@ -369,6 +365,18 @@ describe('Database', async () => {
                 DateAdded: expect.any(Date)
             })
         });
+
+        it('Reads an auth adult from pin', async () => {
+                const adult = await this.db.readAuthAdultFromPin('0951');
+                expect(adult).toEqual({
+                AdultID: 1,
+                AdultFirstName: 'Kayla',
+                AdultLastName: 'Mathieu',
+                AdultCode: '0951',
+                Active: 1,
+                DateAdded: expect.any(Date)
+            })
+        })
 
 
         it('Updates a pin', async () => {

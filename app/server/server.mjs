@@ -19,6 +19,7 @@ studentRouter.registerGetRoutes();
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use()
 // app.use(express.static(path.join(__dirname, "..", "..", "front_end")));
 
 

@@ -4,6 +4,8 @@ It creates the current tables and adds sample data.
 */CREATE DATABASE IF NOT EXISTS montessori_attendance_test;
 USE montessori_attendance_test;
 
+
+
 DROP TABLE IF EXISTS ADMIN_ACTION_TRACKING;
 DROP TABLE IF EXISTS ADMIN_LOGIN;
 DROP TABLE IF EXISTS ATTENDANCE_RECORD;

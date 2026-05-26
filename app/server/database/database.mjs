@@ -212,6 +212,22 @@ export default class Database {
         }
     }
 
+    async readAuthAdultFromPin(pin){
+        if(!this.conn){
+            throw new Error("Db not connected");
+        }
+
+        try {
+            const [row, results] = await this.conn.execute("SELECT * FROM AUTHORIZED_ADULT WHERE AdultCode = ?", [pin]);
+            if (!row[0]) {
+                throw new Error(`No Authorized Adult with pin:${pin} found!`);
+            }
+            return row[0];
+        } catch (error) {
+            console.log(`Error getting Authorized Adult from pin: ${error}`);
+        }
+    }
+
     async updateAuthAdultPin(id, pin) {
         if (!this.conn) {
             throw new Error("Db not connected!");
