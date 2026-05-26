@@ -9,7 +9,7 @@ export default class StudentAuthAdultController {
 
     // GET:
     // POST:
-    async verifyPin(req, res, next){
+    verifyPin = async (req, res, next) => {
         const {pin, firstName, lastName } = req.body;
 
         // Sanitize pin from Jacob
@@ -20,9 +20,29 @@ export default class StudentAuthAdultController {
                 success: false,
                 message: "Missing PIN"
             })
+            next();
         }
 
         // todo: rewrite the sql join logic,
+
+        try {
+            const adult = await this.db.readAuthAdultFromPin(safePin);
+            console.log(adult);
+            const adultId = adult.AdultID;
+
+            const associations = await this.db.readStudentsAuthFromAdult(adultId);
+            console.log(associations);
+
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({
+                success: false,
+                message: "Invalid PIN or no matching student"
+            })
+            next();
+        }
+
+
     }
     // UPDATE:
 }

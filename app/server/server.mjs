@@ -4,6 +4,7 @@ import dbConfig from "./database/dbConfig.mjs";
 import Database from "./database/database.mjs";
 import StudentRouter from "./api/routes/students/studentRouter.mjs";
 import StudentController from "./api/routes/students/studentController.mjs";
+import StudentAuthAdultRouter from "./api/routes/studentAuthAdult/studentAuthAdultRouter.mjs";
 
 
 // Connect to SQL
@@ -12,14 +13,19 @@ await db.connect();
 
 
 // routes
-const studentRouter = new StudentRouter(db);
-studentRouter.registerGetRoutes();
+// console.log(`Database in server: ${console.log(db)}`);
+const studentAuthAdultRouter = new StudentAuthAdultRouter().getInstance(db);
+
+
+// console.log(studentAuthAdultRouter['stack'][1]);
+// StudentAuthAdultRouter.registerGetRoutes();
 
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use()
+app.use(studentAuthAdultRouter);
+// app.use(studentRouter);
 // app.use(express.static(path.join(__dirname, "..", "..", "front_end")));
 
 

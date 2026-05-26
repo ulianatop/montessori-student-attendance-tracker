@@ -325,22 +325,22 @@ export default class Database {
     }
 
     
-    async readStudentAuthFromAdult(adultId){
+    async readStudentsAuthFromAdult(adultId){
         if (!this.conn) {
             throw new Error("Db not connected!");
         }
         try {
-            const [row, results] = await this.conn.execute("SELECT * FROM STUDENT_AUTHORIZED_ADULT WHERE AdultID = ?", [adultId]);
-            if (!row[0]) {
+            const [rows, results] = await this.conn.execute("SELECT * FROM STUDENT_AUTHORIZED_ADULT WHERE AdultID = ?", [adultId]);
+            if (!rows[0]) {
                 throw new Error(`No StudentAuthAdult row found`);
             }
-            return row;
+            return rows;
         } catch (error) {
             console.log(`Error getting studentAuthAdult: ${error}`);
         }
     }
 
-    async readStudentAuthFromStudent(studentId){
+    async readStudentsAuthFromStudent(studentId){
          if (!this.conn) {
             throw new Error("Db not connected!");
         }
