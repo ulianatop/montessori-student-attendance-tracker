@@ -1,6 +1,6 @@
 // students controller module for handling express request and response objects, logic for students
 import { request, response } from "express";
-import Database from "../../../database.mjs";
+import Database from "../../../database/database.mjs";
 export default class StudentAuthAdultController {
 
     constructor(db) {

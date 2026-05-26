@@ -2,7 +2,7 @@
 import { Router } from "express";
 import { request, response } from "express";
 import StudentController from "./studentController.mjs";
-import Database from "../../../database.mjs";
+import Database from "../../../database/database.mjs";
 
 export default class StudentRouter{
     constructor(db){

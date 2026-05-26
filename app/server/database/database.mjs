@@ -4,6 +4,7 @@
 // TODO: on Student, and Auth_Adult delete cascade in the database SQL? I think deleting from student or adult should cascade the deletion
 // TODO: ATTENDANCE_RECORD, ADMIN, ADMIN_LOGIN, ADMIN_ACTION_TRACKING CRUD operations
 // TODO: Unit tests
+// TODO? .env 
 import mysql from "mysql2/promise";
 export default class Database {
 

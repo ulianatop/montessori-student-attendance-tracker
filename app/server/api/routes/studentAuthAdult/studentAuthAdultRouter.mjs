@@ -2,7 +2,7 @@
 import { Router } from "express";
 import { request, response } from "express";
 import StudentController from "./studentController.mjs";
-import Database from "../../../database.mjs";
+import Database from "../../../database/database.mjs";
 
 // kinda overkill but router for the bridge table
 export default class StudentAuthAdultRouter{
