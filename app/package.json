@@ -27,6 +27,8 @@
     "react-router-dom": "^7.15.1"
   },
   "devDependencies": {
+    "@types/mysql": "^2.15.27",
+    "@types/node": "^25.9.1",
     "vitest": "^4.1.7"
   }
 }
