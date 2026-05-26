@@ -15,6 +15,7 @@ await db.connect();
 // routes
 // console.log(`Database in server: ${console.log(db)}`);
 const studentAuthAdultRouter = new StudentAuthAdultRouter().getInstance(db);
+const studentRouter = new StudentRouter().getInstance(db);
 
 
 // console.log(studentAuthAdultRouter['stack'][1]);
@@ -25,6 +26,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(studentAuthAdultRouter);
+app.use(studentRouter);
 // app.use(studentRouter);
 // app.use(express.static(path.join(__dirname, "..", "..", "front_end")));
 

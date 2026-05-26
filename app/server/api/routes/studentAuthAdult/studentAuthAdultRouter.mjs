@@ -37,9 +37,6 @@ export default class StudentAuthAdultRouter{
     // POST routes
     async _registerPostRoutes(){
         await this.router.post("/api/v1/studentAuthAdult", this.controller.verifyPin);
-        await this.router.post("/api/v1/test", async (req, res, next) => {
-                res.status(200).json({test: "test"});
-        });
     }
     // UPDATE routes
     // DELETE routes
