@@ -3,7 +3,7 @@ import dbConfig from "./testDbConfig.mjs"
 import Database from "./database.mjs";
 import mysql, { Types } from "mysql2/promise"
 
-// TODO : improve logic + error
+// TODO : improve logic + error condition testing
 describe('Database', async () => {
 
     this.db = new Database(dbConfig);

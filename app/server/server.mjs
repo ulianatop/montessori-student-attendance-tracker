@@ -6,6 +6,16 @@ import StudentRouter from "./api/routes/students/studentRouter.mjs";
 import StudentController from "./api/routes/students/studentController.mjs";
 
 
+// Connect to SQL
+const db = new Database(dbConfig);
+await db.connect();
+
+
+// routes
+const studentRouter = new StudentRouter(db);
+studentRouter.registerGetRoutes();
+
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -25,13 +35,12 @@ app.use((req, res, next) => {
 })
 
 
-// Connect to SQL
-const db = new Database(dbConfig);
+app.listen(3000, () => {
+    console.log("Server running on http://localhost:3000");
+});
 
-db.connect();
 
-const studentRouter = new StudentRouter(db);
-studentRouter.registerGetRoutes();
+
 
 // Routes
 // TODO: seperate out into its own file or structure(?)
@@ -192,6 +201,3 @@ studentRouter.registerGetRoutes();
 //     }
 // })
 
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
-});

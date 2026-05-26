@@ -50,12 +50,12 @@ export default class Database {
         }
     }
 
-    // for testing, reload the SQL file
+    // for testing only, reload the SQL file
     async _resetDb(){
         try {
             const sql = await fs.readFile('./server/database/testDatabase.sql', 'utf-8');
             await this.conn.query(sql);
-            console.log("Reloading the test SQL");
+            console.log(`Reloading the SQL from: ${'./server/database/testDatabase.sql'}`);
         } catch (error) {
             console.error(`Teardown error: ${error}`);
         }
