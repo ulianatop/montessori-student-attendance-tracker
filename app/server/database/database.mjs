@@ -6,6 +6,7 @@
 // TODO: Unit tests
 // TODO? .env 
 import mysql from "mysql2/promise";
+import fs from "node:fs/promises"
 export default class Database {
 
     constructor(dbConfig) {
@@ -42,10 +43,21 @@ export default class Database {
                 throw new Error("Databse connection obj not defined");
             }
 
-            await this.conn.end();
+            await this.conn.release();
             console.log("Disconnected from database!");
         } catch (error) {
             console.log(`Error disconnecting from database: ${error}`);
+        }
+    }
+
+    // for testing, reload the SQL file
+    async _resetDb(){
+        try {
+            const sql = await fs.readFile('./server/database/testDatabase.sql', 'utf-8');
+            await this.conn.execute(sql);
+            console.log("Reloading the test SQL");
+        } catch (error) {
+            console.error(`Teardown error: ${error}`);
         }
     }
 
@@ -95,7 +107,7 @@ export default class Database {
             if (!row[0]) {
                 throw new Error(`No student with id:${id} found!`);
             }
-            return row;
+            return row[0];
         } catch (error) {
             console.log(`Error getting student: ${error}`);
         }

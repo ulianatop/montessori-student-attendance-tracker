@@ -2,5 +2,6 @@ export default {
     host: "localhost",
     user: "root",
     password: "",
-    database: "montessori_attendance"
+    database: "montessori_attendance",
+    port: 3308
 }

@@ -1,52 +1,71 @@
-import { describe, it, expect, beforeEach, vi, afterEach, expectTypeOf } from "vitest";
-import dbConfig from "./dbConfig.mjs";
+import { describe, it, expect, beforeEach, vi, afterEach, expectTypeOf, beforeAll, afterAll } from "vitest";
+import dbConfig from "./testDbConfig.mjs"
 import Database from "./database.mjs";
 import mysql, { Types } from "mysql2/promise"
 
-describe('Database', () => {
+describe('Database', async () => {
     this.db = null;
     this.conn = null;
 
-    beforeEach(() => {
-        console.log("Setting up db tests");
-        this.db = new Database(dbConfig);
-    })
+    // CREATE TABLE STUDENT (
+    //     StudentID INT AUTO_INCREMENT PRIMARY KEY,
+    //     StudentFirstName VARCHAR(50) NOT NULL,
+    //     StudentLastName VARCHAR(50) NOT NULL,
+    //     AttendanceStatus VARCHAR(20) NOT NULL,
+    //     Active BOOLEAN NOT NULL DEFAULT TRUE,
+    //     DateAdded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    // );
+    // this.fakeStudents = {
 
-    describe('Configuration', () => {
-        it('Creates a database pool', () => {
-            expectTypeOf(this.db).toMatchObjectType(mysql.Pool);
-        });
+    // }
 
-        it('Connects to the pool', async () => {
+    describe("Students", () => {
+        beforeEach(async () => {
+            this.db = new Database(dbConfig);
             await this.db.connect();
-            
-            expectTypeOf(this.conn).toMatchObjectType(mysql.PoolConnection);
-        });
-        
+            this.conn = this.db.conn;
+        })
 
+
+
+        it('Creates a student', () => {
+
+        });
+
+        it('Reads all students', async () => {
+            let students = await this.db.readStudents();
+            // prob re write into a better logic check
+            expect(students).toHaveLength(15);
+        });
+
+        it('Reads one student', async () => {
+            const JodiAcutal = await this.db.readStudent(1);
+            expect(JodiAcutal).toEqual({
+                StudentID: 1,
+                StudentFirstName: 'Jodi',
+                StudentLastName: 'Plouffe',
+                AttendanceStatus: 'Checked Out',
+                Active: 1,
+                DateAdded: expect.any(Date)
+            })
+        });
+
+        it('Updates a students attendance status', () => {
+
+        });
+
+        it("Updates a student's name", () => {
+
+        });
 
     });
 
-    describe('CRUD operation', () => {
-        describe.todo("Students", () => {
-        
-        });
-
-        describe.todo("Authorized Adults", () => {
-        
-        });
-
-        describe.todo("", () => {
-        
-        });
-
-
+    describe.todo("Authorized Adults", () => {
 
     });
 
+    describe.todo("", () => {
 
-    afterEach(async () => {
-        console.log("Tearing down db tests");
-        await this.db.disconnect();
-    })
+    });
+
 });

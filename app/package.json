@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently -n CLIENT,SERVER -c bgGreen,bgBlue \"npm run dev --prefix client/react/attendance\" \"npm run dev --prefix server\"",
-    "test": "vitest",
+    "test": "vitest --typecheck",
     "server": "node server/server.mjs"
   },
   "repository": {
