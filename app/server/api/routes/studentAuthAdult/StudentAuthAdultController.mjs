@@ -56,17 +56,17 @@ export default class StudentAuthAdultController {
 
             const adultId = adult.AdultID;
             const student = await this.db.readStudentFromName(firstName, lastName);
-            const studentId = student.StudentID;
+            
             
             if(!student){
-                res.status(400).json({
+                return res.status(400).json({
                 success: false,
                 message: "Invalid PIN or no matching student"
             })
                 next();
             }
 
-            console.log(student);
+            const studentId = student.StudentID;
             
 
             const studentAuthAdults = await this.db.readStudentsAuthFromAdult(adultId);
@@ -77,7 +77,7 @@ export default class StudentAuthAdultController {
             
 
             if(!associatedStudentIDs.includes(studentId)){
-                res.status(400).json({
+                return res.status(400).json({
                 success: false,
                 message: "Invalid PIN or no matching student"
             })

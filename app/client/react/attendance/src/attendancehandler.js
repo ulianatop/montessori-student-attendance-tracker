@@ -1,11 +1,11 @@
-let verifiedStudent = null;
+let associationArray = null;
 
 export async function findStudent() { 
     const pin = document.getElementById("login_id").value.trim();
     const first = document.getElementById("student_firstname").value.trim();
     const last = document.getElementById("student_lastname").value.trim();
 
-   const resultDiv = document.getElementById("result");
+    const resultDiv = document.getElementById("result");
     if (!resultDiv) {
         console.error("Main container #result not found.");
         return;
@@ -31,7 +31,7 @@ export async function findStudent() {
 
 try{
     // Verify pin and student
-    const res = await fetch("http://localhost:3000/verify-pin", {
+    const res = await fetch("http://localhost:3000/api/v1/studentAuthAdult", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -42,43 +42,86 @@ try{
     });
 
     const data = await res.json();
+    console.log(data);
 
     if (!data.success) {
-        resultDiv.textContent = "Invalid PIN or student name";
+        resultDiv.textContent = data.message;
         return;
     }
 
-    verifiedStudent = data.student;
+    associationArray = data['studentAuthAdults'];
+    console.log(associationArray)
 
-    const statusText = document.createElement("p");
-    statusText.textContent =
-        `${verifiedStudent.StudentFirstName} ${verifiedStudent.StudentLastName} - ${verifiedStudent.AttendanceStatus}`;
+    associationArray.forEach(async (e) => {
+        const studentId = e.StudentID;
+        console.log(studentId);
+        const student = await fetch(`http://localhost:3000/api/v1/student/${studentId}`, {
+            method: "GET"
+        });
+        console.log(student);
+        const statusText = document.createElement("p");
+        const btn = document.createElement("button");
+        statusText.textContent =
+            `${student.StudentFirstName} 
+            ${student.StudentLastName} - 
+            ${student.AttendanceStatus}`;
 
-    const btn = document.createElement("button");
-    btn.textContent =
-        verifiedStudent.AttendanceStatus === "Checked In"
-            ? "Check Out"
-            : "Check In";
 
-    btn.onclick = async () => {
-        const res = await fetch("http://localhost:3000/toggle-attendance", {
-            method: "POST",
+        btn.textContent =
+            student.AttendanceStatus === "Checked In"
+                ? "Check Out"
+                : "Check In";
+
+        btn.onclick = async () => {
+        const res = await fetch(`http://localhost:3000/api/v1/student/${studentId}/attendance`, {
+            method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                StudentID: verifiedStudent.StudentID,
-                AttendanceStatus: verifiedStudent.AttendanceStatus
+                StudentID: student.StudentID,
+                AttendanceStatus: student.AttendanceStatus
             })
         });
-
+        
         const result = await res.json();
-
-        verifiedStudent.AttendanceStatus = result.newStatus;
-
-        findStudent(); // refresh display
-    };
+        student.AttendanceStatus = result.newStatus;
 
         displayDiv.appendChild(statusText);
         displayDiv.appendChild(btn);
+
+        findStudent();
+        
+    }})
+
+    
+
+    // const statusText = document.createElement("p");
+    // statusText.textContent =
+    //     `${verifiedStudent.StudentFirstName} ${verifiedStudent.StudentLastName} - ${verifiedStudent.AttendanceStatus}`;
+
+    // const btn = document.createElement("button");
+    // btn.textContent =
+    //     verifiedStudent.AttendanceStatus === "Checked In"
+    //         ? "Check Out"
+    //         : "Check In";
+
+    // btn.onclick = async () => {
+    //     const res = await fetch("http://localhost:3000/toggle-attendance", {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify({
+    //             StudentID: verifiedStudent.StudentID,
+    //             AttendanceStatus: verifiedStudent.AttendanceStatus
+    //         })
+    //     });
+
+    //     const result = await res.json();
+
+    //     verifiedStudent.AttendanceStatus = result.newStatus;
+ // refresh display
+    // };
+
+    //     displayDiv.appendChild(statusText);
+    //     displayDiv.appendChild(btn);
  } catch (error) {
 	console.error("Error executing database lookup routing loop:", error);
 	displayDiv.textContent = "Server communication error.";
