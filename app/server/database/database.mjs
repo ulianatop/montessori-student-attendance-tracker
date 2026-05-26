@@ -218,7 +218,7 @@ export default class Database {
         }
 
         try {
-            const [row, results] = await this.conn.execute("UPDATE AUTHORIZED_ADULT SET AttendanceStatus = ? WHERE AdultID = ?", [attenandceStatus, pin]);
+            const [row, results] = await this.conn.execute("UPDATE AUTHORIZED_ADULT SET AdultCode = ? WHERE AdultID = ?", [pin, id]);
             if (row.changedRows !== 1) {
                 throw new Error("Authorized Adult pin unchanged");
             }

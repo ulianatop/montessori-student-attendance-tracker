@@ -356,7 +356,29 @@ describe('Database', async () => {
         });
 
 
-        it.todo('Updates a pin', async () => {
+        it('Updates a pin', async () => {
+            const adultBefore = await this.db.readAuthAdult(1);
+            expect(adultBefore).toEqual({
+                AdultID: 1,
+                AdultFirstName: 'Kayla',
+                AdultLastName: 'Mathieu',
+                AdultCode: '0951',
+                Active: 1,
+                DateAdded: expect.any(Date)
+            })
+            const affectedRows = await this.db.updateAuthAdultPin(1, 5590);
+            const adultAfter = await this.db.readAuthAdult(1);
+
+            expect(adultAfter).toEqual({
+                AdultID: 1,
+                AdultFirstName: 'Kayla',
+                AdultLastName: 'Mathieu',
+                AdultCode: '5590',
+                Active: 1,
+                DateAdded: expect.any(Date)
+            })
+
+            expect(affectedRows).toBe(1);
 
         });
 
