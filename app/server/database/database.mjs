@@ -151,7 +151,7 @@ export default class Database {
         }
 
         try {
-            const [row, resut] = await this.conn.execute("DELETE FROM STUDENT WHERE StudentID = ?", [id]);
+            const [row, resut] = await this.conn.execute("DELETE FROM sSTUDENT WHERE StudentID = ?", [id]);
             if (row.affectedRows !== 1) {
                 throw new Error("Student not deleted");
             }
@@ -206,25 +206,25 @@ export default class Database {
             if (!row[0]) {
                 throw new Error(`No Authorized Adult with id:${id} found!`);
             }
-            return row;
+            return row[0];
         } catch (error) {
             console.log(`Error getting Authorized Adult: ${error}`);
         }
     }
 
-    async updateAuthAdultAttendance(id, attenandceStatus) {
+    async updateAuthAdultPin(id, pin) {
         if (!this.conn) {
             throw new Error("Db not connected!");
         }
 
         try {
-            const [row, results] = await this.conn.execute("UPDATE AUTHORIZED_ADULT SET AttendanceStatus = ? WHERE AdultID = ?", [attenandceStatus, id]);
+            const [row, results] = await this.conn.execute("UPDATE AUTHORIZED_ADULT SET AttendanceStatus = ? WHERE AdultID = ?", [attenandceStatus, pin]);
             if (row.changedRows !== 1) {
-                throw new Error("Authorized Adult attendance status unchanged");
+                throw new Error("Authorized Adult pin unchanged");
             }
             return row.affectedRows;
         } catch (error) {
-            console.log(`Error updating Authorized Adult's attendance status: ${error}`);
+            console.log(`Error updating Authorized Adult's pin: ${error}`);
         }
     }
 

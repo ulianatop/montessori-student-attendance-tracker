@@ -206,30 +206,161 @@ describe('Database', async () => {
         });
 
         it.todo("Deletes a student", async () => {
-                await this.db.deleteStudent(1);
+            await this.db.deleteStudent(1);
         })
 
     });
 
-    describe.todo("AUTHORIZED_ADULT", async () => {
-        it('Creates an authorized adult', () => {
-            
-        });
-        
-        it('Reads all auth adults', () => {
-            
+    describe("AUTHORIZED_ADULT", async () => {
+        it.todo('Creates an authorized adult', () => {
+
         });
 
-        it.todo('Reads a pin', () => {
-            
-        });
-        
+        it('Reads all auth adults', async () => {
+            const adults = await this.db.readAuthAdults();
+            expect(adults).toEqual([
+                {
+                    "Active": 1,
+                    "AdultCode": "0951",
+                    "AdultFirstName": "Kayla",
+                    "AdultID": 1,
+                    "AdultLastName": "Mathieu",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "1234",
+                    "AdultFirstName": "Margo",
+                    "AdultID": 2,
+                    "AdultLastName": "Vachon",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "9831",
+                    "AdultFirstName": "Pat",
+                    "AdultID": 3,
+                    "AdultLastName": "Mann",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "3872",
+                    "AdultFirstName": "Colin",
+                    "AdultID": 4,
+                    "AdultLastName": "McCann",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "4712",
+                    "AdultFirstName": "Tatiana",
+                    "AdultID": 5,
+                    "AdultLastName": "Lims",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "8716",
+                    "AdultFirstName": "Daryl",
+                    "AdultID": 6,
+                    "AdultLastName": "Bernard",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "4905",
+                    "AdultFirstName": "Randy",
+                    "AdultID": 7,
+                    "AdultLastName": "Gagnon",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "2708",
+                    "AdultFirstName": "Clement",
+                    "AdultID": 8,
+                    "AdultLastName": "Legault",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "5902",
+                    "AdultFirstName": "Guy",
+                    "AdultID": 9,
+                    "AdultLastName": "Trudeau",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "5087",
+                    "AdultFirstName": "Barb",
+                    "AdultID": 10,
+                    "AdultLastName": "Burton",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "2395",
+                    "AdultFirstName": "Julien",
+                    "AdultID": 11,
+                    "AdultLastName": "Proulx",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "3690",
+                    "AdultFirstName": "June",
+                    "AdultID": 12,
+                    "AdultLastName": "Allard",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "5064",
+                    "AdultFirstName": "Rhonda",
+                    "AdultID": 13,
+                    "AdultLastName": "Hall",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "6810",
+                    "AdultFirstName": "Steeve",
+                    "AdultID": 14,
+                    "AdultLastName": "Hoffman",
+                    "DateAdded": expect.any(Date),
+                },
+                {
+                    "Active": 1,
+                    "AdultCode": "6432",
+                    "AdultFirstName": "Karine",
+                    "AdultID": 15,
+                    "AdultLastName": "Mailloux",
+                    "DateAdded": expect.any(Date),
+                },
+            ]);
 
-        it.todo('Updates a pin', () => {
-            
         });
-        
-        
+
+        it('Reads an auth adult', async () => {
+            const adult = await this.db.readAuthAdult(1);
+            expect(adult).toEqual({
+                AdultID: 1,
+                AdultFirstName: 'Kayla',
+                AdultLastName: 'Mathieu',
+                AdultCode: '0951',
+                Active: 1,
+                DateAdded: expect.any(Date)
+            })
+        });
+
+
+        it.todo('Updates a pin', async () => {
+
+        });
+
+
 
     });
 
