@@ -10,7 +10,10 @@ describe('Database', async () => {
     await this.db.connect();
     this.conn = this.db.conn;
 
-    const setup = async () => {
+
+    
+
+    const startTransact = async () => {
         await this.conn.beginTransaction();
     } 
 
@@ -18,10 +21,13 @@ describe('Database', async () => {
         await this.conn.rollback();
     }
     
-    
+    // Reload a fresh database, mainly for reseting the auto_increment IDs
+    afterAll(async () => {
+        await this.db._resetDb();
+    })
 
     describe("STUDENT", async () => {
-        beforeEach(setup);
+        beforeEach(startTransact);
         afterEach(rollback);
 
 
@@ -218,7 +224,7 @@ describe('Database', async () => {
     });
 
     describe("AUTHORIZED_ADULT", async () => {
-        beforeEach(setup);
+        beforeEach(startTransact);
         afterEach(rollback);
 
         it('Creates an authorized adult', async () => {
