@@ -19,7 +19,7 @@ export default class Database {
 
     async connect() {
         try {
-            console.log("Connecting to database...");
+            // console.log("Connecting to database...");
 
             if (!this.db) {
                 throw new Error("Db connection obj undefined or null");
@@ -31,7 +31,7 @@ export default class Database {
 
 
             this.conn = await this.db.getConnection();
-            console.log("Connected to database!");
+            // console.log("Connected to database!");
         } catch (error) {
             console.log(`Error connecting to database: ${error}`);
         }
@@ -54,8 +54,8 @@ export default class Database {
     async _resetDb(){
         try {
             const sql = await fs.readFile('./server/database/testDatabase.sql', 'utf-8');
-            await this.conn.execute(sql);
-            console.log("Reloading the test SQL");
+            await this.conn.query(sql);
+            // console.log("Reloading the test SQL");
         } catch (error) {
             console.error(`Teardown error: ${error}`);
         }
@@ -72,8 +72,8 @@ export default class Database {
 
         try {
             const [row, results] = await this.conn.execute("INSERT INTO STUDENT \
-                (StudentFistName, StudentLastName, AttendanceStatus) \
-                VALUES (?,?,?,?,?)", [firstName, lastName, attenandceStatus]);
+                (StudentFirstName, StudentLastName, AttendanceStatus) \
+                VALUES (?,?,?)", [firstName, lastName, attenandceStatus]);
             if (row.affectedRows !== 1) {
                 throw new Error("No student inserted, check parameters?");
             }
