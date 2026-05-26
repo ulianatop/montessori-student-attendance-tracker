@@ -5,18 +5,24 @@ import mysql, { Types } from "mysql2/promise"
 
 // TODO : improve logic + error
 describe('Database', async () => {
-    this.db = null;
-    this.conn = null;
 
-    describe("STUDENT", () => {
-        beforeEach(async () => {
-            this.db = new Database(dbConfig);
-            await this.db.connect();
-            await this.db._resetDb();
+    this.db = new Database(dbConfig);
+    await this.db.connect();
+    this.conn = this.db.conn;
 
+    const setup = async () => {
+        await this.conn.beginTransaction();
+    } 
 
-            this.conn = this.db.conn;
-        })
+    const rollback = async () => {
+        await this.conn.rollback();
+    }
+    
+    
+
+    describe("STUDENT", async () => {
+        beforeEach(setup);
+        afterEach(rollback);
 
 
 
@@ -212,8 +218,11 @@ describe('Database', async () => {
     });
 
     describe("AUTHORIZED_ADULT", async () => {
-        it.todo('Creates an authorized adult', () => {
+        beforeEach(setup);
+        afterEach(rollback);
 
+        it('Creates an authorized adult', async () => {
+            const newAdultId = await this.db.createAuthAdult("Name", "Nameson", 7676);
         });
 
         it('Reads all auth adults', async () => {

@@ -55,7 +55,7 @@ export default class Database {
         try {
             const sql = await fs.readFile('./server/database/testDatabase.sql', 'utf-8');
             await this.conn.query(sql);
-            // console.log("Reloading the test SQL");
+            console.log("Reloading the test SQL");
         } catch (error) {
             console.error(`Teardown error: ${error}`);
         }
@@ -162,7 +162,7 @@ export default class Database {
     }
 
     // Authorized adult CRUD ops:
-    async createAuthAdult(id, firstName, lastName, pin) {
+    async createAuthAdult(firstName, lastName, pin) {
 
         if (!this.conn) {
             throw new Error("Db not connected!");
@@ -171,14 +171,14 @@ export default class Database {
         try {
             const [row, results] = await this.conn.execute(
                 "INSERT INTO AUTHORIZED_ADULT \
-                (AdultFirstName, AdultLastName, AdultCode, Active, dateAdded) \
-                VALUES (?,?,?,?)", [id, firstName, lastName, pin]);
+                (AdultFirstName, AdultLastName, AdultCode) \
+                VALUES (?,?,?)", [firstName, lastName, pin]);
             if (row.affectedRows !== 1) {
                 throw new Error("No student inserted, check parameters?");
             }
             return row.insertId;
         } catch (error) {
-            console.log(`Error creating student: ${error}`);
+            console.log(`Error creating auth Adult: ${error}`);
         }
     }
 
