@@ -368,4 +368,20 @@ describe('Database', async () => {
 
     });
 
+    describe.todo("ATTENDANCE_RECORD", () => {
+            
+    })
+
+    describe.todo("ADMIN", () => {
+            
+    })
+
+    describe.todo("ADMIN_LOGIN", () => {
+            
+    })
+
+    describe.todo("ADMIN_ACTION_TRACKING", () => {
+            
+    })
+
 });
