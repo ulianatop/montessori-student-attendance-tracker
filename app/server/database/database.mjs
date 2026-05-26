@@ -113,6 +113,22 @@ export default class Database {
         }
     }
 
+    async readStudentFromName(firstName, lastName){
+         if (!this.conn) {
+            throw new Error("Db not connected!");
+        }
+
+        // try {
+            const [row, results] = await this.conn.execute("SELECT * FROM STUDENT WHERE StudentFirstName = ? AND StudentLastName = ?", [firstName, lastName]);
+            // if (!row[0]) {
+            //     throw new Error(`No student found!`);
+            // }
+            return row[0];
+        // } catch (error) {
+        //     console.log(`Error getting student: ${error}`);
+        // }
+    }
+
     async updateStudentAttendance(id, attenandceStatus) {
         if (!this.conn) {
             throw new Error("Db not connected!");
@@ -151,7 +167,7 @@ export default class Database {
         }
 
         try {
-            const [row, resut] = await this.conn.execute("DELETE FROM sSTUDENT WHERE StudentID = ?", [id]);
+            const [row, resut] = await this.conn.execute("DELETE FROM STUDENT WHERE StudentID = ?", [id]);
             if (row.affectedRows !== 1) {
                 throw new Error("Student not deleted");
             }

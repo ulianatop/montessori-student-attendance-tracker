@@ -10,28 +10,89 @@ export default class StudentAuthAdultController {
     // GET:
     // POST:
     verifyPin = async (req, res, next) => {
-        const {pin, firstName, lastName } = req.body;
 
-        // Sanitize pin from Jacob
-        const safePin = String(pin || "").trim();
-
-        if(!safePin){
-            res.status(400).json({
-                success: false,
-                message: "Missing PIN"
-            })
-            next();
-        }
-
-        // todo: rewrite the sql join logic,
 
         try {
+            let { pin, firstName, lastName } = req.body;
+            // Sanitize pin from Jacob
+            const safePin = String(pin || "").trim();
+
+            if (!safePin) {
+                res.status(400).json({
+                    success: false,
+                    message: "Missing PIN"
+                })
+                next();
+            }
+
+            
+            if (!firstName) {
+                res.status(400).json({
+                    success: false,
+                    message: "Missing first name"
+                })
+                next();
+            }
+
+            
+            if (!lastName) {
+                res.status(400).json({
+                    success: false,
+                    message: "Missing last name"
+                })
+                next();
+            }
+
             const adult = await this.db.readAuthAdultFromPin(safePin);
             console.log(adult);
-            const adultId = adult.AdultID;
 
-            const associations = await this.db.readStudentsAuthFromAdult(adultId);
-            console.log(associations);
+            if(!adult){
+                res.status(400).json({
+                success: false,
+                message: "Invalid PIN or no matching student"
+            })
+                next();
+            }
+
+            const adultId = adult.AdultID;
+            const student = await this.db.readStudentFromName(firstName, lastName);
+            const studentId = student.StudentID;
+            
+            if(!student){
+                res.status(400).json({
+                success: false,
+                message: "Invalid PIN or no matching student"
+            })
+                next();
+            }
+
+            console.log(student);
+            
+
+            const studentAuthAdults = await this.db.readStudentsAuthFromAdult(adultId);
+            console.log(studentAuthAdults);
+            const associatedStudentIDs = studentAuthAdults.map((x) => x['StudentID']);
+
+            console.log(associatedStudentIDs);
+            
+
+            if(!associatedStudentIDs.includes(studentId)){
+                res.status(400).json({
+                success: false,
+                message: "Invalid PIN or no matching student"
+            })
+                next();
+            }
+
+            res.status(200).json({
+                success: true,
+                studentAuthAdults: studentAuthAdults
+            })
+            
+            next();
+
+
+
 
         } catch (error) {
             console.log(error);
