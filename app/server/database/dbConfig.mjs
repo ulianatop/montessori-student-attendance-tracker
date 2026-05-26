@@ -3,5 +3,4 @@ export default {
     user: "root",
     password: "",
     database: "montessori_attendance",
-    port: 3308
 }

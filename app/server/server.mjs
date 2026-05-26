@@ -31,7 +31,7 @@ app.use((req, res, next) => {
             URL:${req.url}
             Body:${JSON.stringify(req.body)}
         `)
-        next()
+        next();
 })
 
 
