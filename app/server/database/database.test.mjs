@@ -50,12 +50,22 @@ describe('Database', async () => {
             })
         });
 
-        it('Updates a students attendance status', () => {
-
+        it('Updates a students attendance status', async () => {
+            
         });
 
-        it("Updates a student's name", () => {
-
+        it("Updates a student's name", async () => {
+            const JodiBefore = await this.db.readStudent(1);
+            await this.db.updateStudentName(1, "Johnny", "Johnson");
+            const JodiAfter = await this.db.readStudent(1);
+            expect(JodiAfter).toEqual({
+                StudentID: 1,
+                StudentFirstName: 'Johnny',
+                StudentLastName: 'Johnson',
+                AttendanceStatus: 'Checked Out',
+                Active: 1,
+                DateAdded: expect.any(Date)
+            })
         });
 
     });

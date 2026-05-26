@@ -135,13 +135,13 @@ export default class Database {
         }
 
         try {
-            const [row, results] = await this.conn.execute("UPDATE STUDENT SET FirstName = ?, LastName = ? WHERE StudentId = ?", [firstName, lastName, id]);
+            const [row, results] = await this.conn.execute("UPDATE STUDENT SET StudentFirstName = ?, StudentLastName = ? WHERE StudentId = ?", [firstName, lastName, id]);
             if (row.changedRows !== 1) {
                 throw new Error("student name field unchanged");
             }
             return row.affectedRows;
         } catch (error) {
-            console.log(`Error updating attendance status: ${error}`);
+            console.log(`Error updating student name: ${error}`);
         }
     }
 
