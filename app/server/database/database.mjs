@@ -151,7 +151,7 @@ export default class Database {
         }
 
         try {
-            const [row, resut] = await this.conn.execute("DELETE STUDENT WHERE StudentId = ?", [id]);
+            const [row, resut] = await this.conn.execute("DELETE FROM STUDENT WHERE StudentID = ?", [id]);
             if (row.affectedRows !== 1) {
                 throw new Error("Student not deleted");
             }
