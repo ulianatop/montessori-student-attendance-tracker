@@ -40,13 +40,13 @@ export default class StudentRouter{
         
         this.router.get(
             // all students
-            '/api/v1/students', 
+            '/api/v1/student', 
             this.controller.getStudents
         );
 
         this.router.get(
             // single student
-            '/api/v1/students/:studentId',
+            '/api/v1/student/:studentId',
             this.controller.getStudentById
         )
         
@@ -55,14 +55,14 @@ export default class StudentRouter{
     // POST routes
     async _registerPostRoutes(){
         this.router.post(
-            "/api/v1/students",
+            "/api/v1/student",
             this.controller.createStudent
         )
     }
     // UPDATE routes
     async _registerUpdateRoutes(){
         this.router.patch(
-            "/api/v1/students/:studentId/attendance",
+            "/api/v1/student/:studentId/attendance",
             this.controller.updateStudentAttendance
         )
     }

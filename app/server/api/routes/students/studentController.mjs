@@ -9,7 +9,7 @@ export default class StudentController {
 
     // GET:
     getStudents = async (req, res, next) => {
-        const students = await this.db.getStudents();
+        const students = await this.db.readStudents();
         res.status(200)
         .json(students);
         next();
