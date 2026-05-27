@@ -20,42 +20,43 @@ export default function AttendanceTracker() {
       <h1>Northern Lights Montessori Attendance Tracker</h1>
 
       <div className="center">
-        <div className="boxborder">
 
-          <form>
-            <fieldset>
-              <legend id="legend">Check in/out:</legend>
-            
-              <div id="log_in">
-                <label htmlFor="login_id">Login PIN:&nbsp;&nbsp;</label>
-            <input
-              type="text"
-              id="login_id"
-              value={loginID}
-              onChange={(e) => setLoginID(e.target.value)}
-            />
-              </div>
+        <form className="boxborder">
+          <fieldset className = "field">
+            <legend id="legend">Check in/out:</legend>
+              <label htmlFor="login_id">Login PIN:&nbsp;&nbsp;</label>
+                
+              <input
+                type="text"
+                id="login_id"
+                value={loginID}
+                onChange={(e) => setLoginID(e.target.value)}
+              />
 
-            <p>Student's Name:</p>
+            <label htmlFor="sub_title">
+              Student's Name:
+            </label>
 
-            <label htmlFor="student_firstname">First:</label>
+           <div>
+             <label htmlFor="student_firstname">First:</label>
             <input
               type="text"
               id="student_firstname"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
+           </div>
 
-            <div id="last_name">
-              <label htmlFor="student_lastname">Last:</label>
-            <input
-              type="text"
-              id="student_lastname"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            </div>
-            <br />
+            
+              <div>
+                <label htmlFor="student_lastname">Last:</label>
+              <input
+                type="text"
+                id="student_lastname"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+              </div>
 
             <div className="buttons">
               <input type="button" value="Find Student" onClick={async () => {
@@ -71,9 +72,7 @@ export default function AttendanceTracker() {
               <div id="error"></div>
             </div>
           </fieldset>
-          </form>
-
-        </div>
+        </form>
       </div>
 
       <div className="lower">
