@@ -19,9 +19,7 @@ const handleLoginClick = async () => {
         setLoginMessage(err.message || "An error occurred during login.");
     }
 };
-        }
-    };
-	*/
+
 return(
 <>
 <br /><br /><br /><br /><br />
