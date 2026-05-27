@@ -1,38 +1,95 @@
-        body {
-            background-image: url(background.jpg);
-            background-size: auto;
-            background-position: center;
-        }
-        h1 {
-            font-family: Georgia, serif;
-            text-align: center;
-            font-size: 50px;
-            color: lightblue;
-        }
+body {
+	background-image: url(background.jpg);
+	background-size: auto;
+	background-position: center;
+}
 
-        
+h1 {
+	font-family: Georgia, serif;
+	text-align: center;
+	font-size: 50px;
+	color: lightblue;
+}
 
-        label {
-            font-family: Georgia, serif;
-            color: yellow;
-            font-weight: bold;
-        }
-        .center {
-            font-family: Arial, Helvetica, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: yellow;
-            box-sizing: border-box;
-        }
-        .right{
-            display: flex;
-            justify-content: center;
-			font-size:24px;
-			color: red
-        }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
+label {
+	font-family: Georgia, serif;
+	color: yellow;
+	font-weight: bold;
+}
+		
+.center {
+	font-family: Arial, Helvetica, sans-serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: yellow;
+	box-sizing: border-box;
+}
+		
+.right{
+	display: flex;
+	justify-content: center;
+	font-size:24px;
+	color: red
+}
+
+.buttons {
+	display: flex;
+	gap: 15px;
+	justify-content: center; 
+	margin-top: 20px;
+}
+
+.buttons button {
+	padding: 10px 20px; 
+	min-width: 120px;
+	cursor: pointer;
+}
+
+.boxborder {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 25px;
+    border: 3px solid lightblue;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.center {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: yellow;
+    box-sizing: border-box;
+    padding-bottom: 50px;
+}
+
+
+.buttons button[name="go_back"] {
+    background-color: #ff4444 !important;
+    color: white !important;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+.buttons button[name="do_task"] {
+    background-color: #4CAF50 !important; 
+    color: white !important;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+#result div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+#result div label[for="login_id"] {
+    margin-top: 40px;
+}

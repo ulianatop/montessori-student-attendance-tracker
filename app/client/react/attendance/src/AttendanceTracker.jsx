@@ -22,9 +22,11 @@ return(
 <div className="center">
   <div className="boxborder">
 
-    <label htmlFor="login_id">Login PIN:&nbsp;&nbsp;</label>
+    <label htmlFor="login_id">Login PIN:</label>
+	<br />
     <input
       type="text"
+	  className="boxborder"
       id="login_id"
       value={loginID}
       onChange={(e) => setLoginID(e.target.value)}
@@ -34,8 +36,10 @@ return(
     <p>Student's Name:</p>
 
     <label htmlFor="student_firstname">First:</label>
+	<br />
     <input
       type="text"
+	  className="boxborder"
       id="student_firstname"
       value={firstName}
       onChange={(e) => setFirstName(e.target.value)}
@@ -43,8 +47,10 @@ return(
     <br />
 
     <label htmlFor="student_lastname">Last:</label>
+	<br />
     <input
       type="text"
+	  className="boxborder"
       id="student_lastname"
       value={lastName}
       onChange={(e) => setLastName(e.target.value)}
@@ -53,6 +59,7 @@ return(
 
     <div className="buttons">
       <input type="button" value="Find Student" onClick={findStudent} />
+	  <input type="button" value="Admin Tasks" onClick={() => navigate('/admin-logsin')}/>
     </div>
 
     <div id="result" className="center">
@@ -60,11 +67,6 @@ return(
     </div>
 
   </div>
-</div>
-
-<div className="lower">
-  <br /><br /><br /><br /><br /><br />
-  <input type="button" value="Admin Tasks" onClick={() => navigate('/admin-logsin')}/>
 </div>
 
 </>

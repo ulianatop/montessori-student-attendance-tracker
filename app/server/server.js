@@ -162,20 +162,14 @@ app.post("/:adminTask", (req, res) => {
             break;
 		case "checkInOut":
 		const htmlPayload = `
-                <label for="login_id">Login PIN:&nbsp;&nbsp;</label>
+				<br /><br /><br /><br /><br />
+		        <label for="login_id">Login PIN:&nbsp;&nbsp;</label>
                 <input type="text" id="login_id" />
-                <br />
-
                 <p>Student's Name:</p>
-
                 <label for="student_firstname">First:</label>
                 <input type="text" id="student_firstname" />
-                <br />
-
                 <label for="student_lastname">Last:</label>
-                <input type="text" id="student_lastname" />
-                <br />
-                
+                <input type="text" id="student_lastname" />            
                 <div class="buttons">
                     <input type="button" value="Find Student" id="btn-find-student" />
                 </div>
