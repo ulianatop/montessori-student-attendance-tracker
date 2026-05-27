@@ -1,14 +1,11 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-
 const app = express();
 const path = require("path");
-
-app.use(express.static(path.join(__dirname, "..", "..", "front_end")));
-
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     // debug logging middleware
@@ -138,6 +135,21 @@ app.post("/verify-pin", (req, res) => {
     });
 });
 
+app.post("/admin-pass", (req, res) => {
+    const { adminName, adminPassword } = req.body;
+    if (!adminName || adminName.trim() === "") {
+        return res.status(400).send("Missing Username"); 
+    }
+    if (!adminPassword || adminPassword.trim() === "") {
+        return res.status(400).send("Missing Password");
+    }
+    if (adminName === "admin" && adminPassword === "passw0rd") {
+        return res.status(200).send("Login successful!");
+    } else {
+        return res.status(401).send("Invalid credentials");
+    }
+});
+
 app.post("/:adminTask", (req, res) => {
     const task = req.params.adminTask;
      
@@ -180,6 +192,10 @@ app.post("/:adminTask", (req, res) => {
             break;
     }
 })
+
+
+
+app.use(express.static(path.join(__dirname, "..", "..", "front_end")));
 
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");

@@ -64,7 +64,7 @@ return(
 
 <div className="lower">
   <br /><br /><br /><br /><br /><br />
-  <input type="button" value="Admin Tasks" onClick={() => navigate('/admin-tasks')}/>
+  <input type="button" value="Admin Tasks" onClick={() => navigate('/admin-logsin')}/>
 </div>
 
 </>
