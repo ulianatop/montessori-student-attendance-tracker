@@ -70,14 +70,14 @@ label {
 
 
 .buttons button[name="go_back"] {
-    background-color: #ff4444 !important;
+    background-color: #1d4ed8 !important;
     color: white !important;
     font-weight: bold;
     border: 2px solid white;
 }
 
 .buttons button[name="do_task"] {
-    background-color: #4CAF50 !important; 
+    background-color: #1d4ed8 !important; 
     color: white !important;
     font-weight: bold;
     border: 2px solid white;
