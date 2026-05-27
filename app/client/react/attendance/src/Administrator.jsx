@@ -17,12 +17,16 @@ export default function Administrator() {
 
       if (findStudentBtn) {
         console.log("Found the button inside DOM! Attaching listener...");
-        findStudentBtn.removeAttribute("onclick");
-        findStudentBtn.removeEventListener("click", findStudent);
-        findStudentBtn.addEventListener("click", findStudent);
+        findStudentBtn.removeEventListener("click", renderStudents);
+        findStudentBtn.addEventListener("click", renderStudents);
       }
     }
   }, [successMessage]);
+
+  const renderStudents = async () => {
+    const oldDiv = document.querySelector("#DHTML");
+    await oldDiv.replaceWith(await findStudent(oldDiv));
+  }
 
   const handleButtonClick = async () => {
     if (!adminTask) {
@@ -34,7 +38,7 @@ export default function Administrator() {
     await adminTasks(adminTask, setSuccessMessage);
   };
 	
-return(
+return (
 <> 
 <h1>Administrative Tasks</h1>
 
@@ -94,7 +98,7 @@ return(
       <button type="button" onClick={handleButtonClick}>Do Task </button>
     </div>
 	<div id="result" className="center" ref={resultRef}>
-            <div dangerouslySetInnerHTML={{ __html: successMessage }} />
+            <div id="DHTML"dangerouslySetInnerHTML={{ __html: successMessage }} />
     </div>
   </div>
 </div>

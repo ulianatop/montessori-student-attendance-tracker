@@ -46,8 +46,6 @@ export async function findStudent(oldDiv) {
         return oldDiv;
     }
 
-    result.textContent = "";
-
     try {
         // Verify pin and student
         const studentAuthAdults = await fetch("http://localhost:3000/api/v1/studentAuthAdult", {
@@ -61,7 +59,7 @@ export async function findStudent(oldDiv) {
         });
 
         const data = await studentAuthAdults.json();
-        console.log(data);
+        // console.log(data);
 
         if (!data.success) {
             result.textContent = data.message;
