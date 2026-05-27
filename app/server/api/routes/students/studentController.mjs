@@ -22,6 +22,14 @@ export default class StudentController {
         next();
     }
 
+    getStudentByName = async (req, res, next) => {
+        const firstName = req.params["firstName"];
+        const lastName = req.params["lastName"];
+        const student = await this.db.readStudentFromName(firstName, lastName);
+        res.status(200).json(student);
+        next();
+    }
+
     // POST:
     createStudent = async (req, res, next) => {
         const { StudentFirstName, StudentLastName, AttendanceStatus } = req.body;

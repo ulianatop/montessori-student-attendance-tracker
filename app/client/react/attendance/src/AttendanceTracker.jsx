@@ -52,7 +52,12 @@ return(
     <br />
 
     <div className="buttons">
-      <input type="button" value="Find Student" onClick={findStudent} />
+      <input type="button" value="Find Student" onClick={async () => {
+        let oldDiv = document.querySelector(".center");
+        let result = document.querySelector("#result");
+
+        await oldDiv.replaceWith(await findStudent(oldDiv, result));
+      }} />
     </div>
 
     <div id="result" className="center">
