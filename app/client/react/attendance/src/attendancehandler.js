@@ -9,13 +9,14 @@ export async function findStudent(oldDiv) {
     blockDiv.className = 'blockDiv';
     blockDiv.style.display = 'flex';
     blockDiv.style.justifyContent = 'center';
+    blockDiv.style.margin = '20px';
     const parentContainer = document.createElement("div");
     blockDiv.appendChild(parentContainer);
     const groupDiv = document.createElement("div");
     groupDiv.className = 'studentGroup';
     parentContainer.appendChild(groupDiv);
     parentContainer.className = "newDiv";
-    
+
     parentContainer.style.display = 'flex';
     parentContainer.style.flexFlow = 'column';
     parentContainer.style.alignItems = 'center';
@@ -23,10 +24,10 @@ export async function findStudent(oldDiv) {
     parentContainer.style.backdropFilter = 'blur(3px)';
 
     const resetBtn = document.createElement("button");
-        resetBtn.textContent = "Reset"
-        resetBtn.onclick = () => {
-            blockDiv.replaceWith(oldDiv);
-        }
+    resetBtn.textContent = "Reset"
+    resetBtn.onclick = () => {
+        blockDiv.replaceWith(oldDiv);
+    }
     parentContainer.appendChild(resetBtn);
     const pin = document.getElementById("login_id").value.trim();
     const first = document.getElementById("student_firstname").value.trim();
@@ -38,7 +39,7 @@ export async function findStudent(oldDiv) {
         return;
     }
 
-   
+
     if (!pin || !first || !last) {
         result.textContent = "Please enter PIN, first name and last name.";
         result.style.color = "red";
@@ -47,100 +48,82 @@ export async function findStudent(oldDiv) {
 
     result.textContent = "";
 
-try{
-    // Verify pin and student
-    const studentAuthAdults = await fetch("http://localhost:3000/api/v1/studentAuthAdult", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            pin,
-            firstName: first,
-            lastName: last
-        })
-    });
-
-    const data = await studentAuthAdults.json();
-    console.log(data);
-
-    if (!data.success) {
-        result.textContent = data.message;
-        return oldDiv;
-    }
-
-    const associationArray = data['studentAuthAdults'];
-
-    associationArray.forEach(async element => {
-        const studentId = element.StudentID;
-        const studentRes = await fetch(`http://localhost:3000/api/v1/student/${studentId}`, {
-            method: "GET"
+    try {
+        // Verify pin and student
+        const studentAuthAdults = await fetch("http://localhost:3000/api/v1/studentAuthAdult", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                pin,
+                firstName: first,
+                lastName: last
+            })
         });
-        const student = await studentRes.json();
-        const childContainer = document.createElement("div");
-        const statusText = document.createElement("p");
 
-        statusText.textContent = `
+        const data = await studentAuthAdults.json();
+        console.log(data);
+
+        if (!data.success) {
+            result.textContent = data.message;
+            return oldDiv;
+        }
+
+        const associationArray = data['studentAuthAdults'];
+
+        associationArray.forEach(async element => {
+            const studentId = element.StudentID;
+            const studentRes = await fetch(`http://localhost:3000/api/v1/student/${studentId}`, {
+                method: "GET"
+            });
+            const student = await studentRes.json();
+            const childContainer = document.createElement("div");
+            const statusText = document.createElement("p");
+            childContainer.className = 'childContainer';
+            childContainer.style.display = 'flex';
+            childContainer.style.flexDirection = 'row';
+            childContainer.style.padding = '20px';
+            childContainer.style.alignItems = 'center';
+            
+
+            statusText.textContent = `
         ${student.StudentLastName}, 
-        ${student.StudentFirstName},
-        ${student.AttendanceStatus}
+        ${student.StudentFirstName}:
         `
-        const btn = document.createElement("button");
-        btn.textContent = student.AttendanceStatus === "Checked In"
-            ? "Check Out"
-            : "Check In";
-        btn.onclick = async () => {
-                const res = await fetch(`http://localhost:3000/api/v1/student/${studentId}`, {
+            statusText.style.color = 'yellow';
+            const attendanceBtn = document.createElement("input");
+            attendanceBtn.type = 'button';
+            attendanceBtn.value = student.AttendanceStatus;
+            attendanceBtn.onclick = async () => {
+                const currentStatus = attendanceBtn.value;
+
+                const attendanceRes = await fetch(`http://localhost:3000/api/v1/student/${studentId}/attendance`, {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         StudentID: student.StudentID,
-                        AttendanceStatus: student.AttendanceStatus
+                        AttendanceStatus: currentStatus
                     })
                 })
-        }
 
-        statusText.appendChild(btn);
-        childContainer.appendChild(statusText);
-        groupDiv.appendChild(childContainer);
+                const newAttendance = await attendanceRes.json();
 
-        
+                attendanceBtn.value = newAttendance['newAttendanceStatus'];
+            }
 
-    });
+            
 
+            // statusText.append(attendanceBtn);
+            childContainer.appendChild(statusText);
+            childContainer.appendChild(attendanceBtn);
+            groupDiv.appendChild(childContainer);
+
+
+
+        });
+        return blockDiv;
     
-
-    return blockDiv;
-    
-
-    // const statusText = document.createElement("p");
-    // statusText.textContent =
-    //     `${verifiedStudent.StudentFirstName} ${verifiedStudent.StudentLastName} - ${verifiedStudent.AttendanceStatus}`;
-
-    // const btn = document.createElement("button");
-    // btn.textContent =
-    //     verifiedStudent.AttendanceStatus === "Checked In"
-    //         ? "Check Out"
-    //         : "Check In";
-
-    // btn.onclick = async () => {
-    //     const res = await fetch("http://localhost:3000/toggle-attendance", {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify({
-    //             StudentID: verifiedStudent.StudentID,
-    //             AttendanceStatus: verifiedStudent.AttendanceStatus
-    //         })
-    //     });
-
-    //     const result = await res.json();
-
-    //     verifiedStudent.AttendanceStatus = result.newStatus;
- // refresh display
-    // };
-
-    //     displayDiv.appendChild(statusText);
-    //     displayDiv.appendChild(btn);
- } catch (error) {
-	console.error("Error executing database lookup routing loop:", error);
-	displayDiv.textContent = "Server communication error.";
- }
+    } catch (error) {
+        console.error("Error executing database lookup routing loop:", error);
+        displayDiv.textContent = "Server communication error.";
+    }
 }

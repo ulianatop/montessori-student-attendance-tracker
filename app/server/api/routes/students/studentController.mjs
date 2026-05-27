@@ -27,7 +27,7 @@ export default class StudentController {
         const lastName = req.params["lastName"];
         const student = await this.db.readStudentFromName(firstName, lastName);
         res.status(200).json(student);
-        next();
+        next(); 
     }
 
     // POST:
