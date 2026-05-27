@@ -34,6 +34,7 @@ export async function findStudent(oldDiv) {
     const last = document.getElementById("student_lastname").value.trim();
 
     const resultDiv = document.getElementById("result");
+    const errorDiv = document.querySelector('#error');
     if (!resultDiv) {
         console.error("Main container #result not found.");
         return;
@@ -41,10 +42,12 @@ export async function findStudent(oldDiv) {
 
 
     if (!pin || !first || !last) {
-        result.textContent = "Please enter PIN, first name and last name.";
-        result.style.color = "red";
+        errorDiv.textContent = "Please enter PIN, first name and last name.";
+        errorDiv.style.color = "red";
         return oldDiv;
     }
+
+    errorDiv.textContent = "";
 
     try {
         // Verify pin and student
@@ -62,7 +65,7 @@ export async function findStudent(oldDiv) {
         // console.log(data);
 
         if (!data.success) {
-            result.textContent = data.message;
+            errorDiv.textContent = data.message;
             return oldDiv;
         }
 

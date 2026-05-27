@@ -38,6 +38,10 @@
         }
 		
 		.boxborder {
+            display: flex;
+            align-items: row;
+            flex-direction: column;
 			padding: 4px;
 			border: 1px solid blue;
+            backdrop-filter: blur(3px);
 		}

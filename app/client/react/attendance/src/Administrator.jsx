@@ -99,6 +99,7 @@ return (
     </div>
 	<div id="result" className="center" ref={resultRef}>
             <div id="DHTML"dangerouslySetInnerHTML={{ __html: successMessage }} />
+            <div id="error"></div>
     </div>
   </div>
 </div>
