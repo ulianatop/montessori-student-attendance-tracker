@@ -15,6 +15,11 @@ const handleLoginClick = async () => {
         setLoginMessage(""); 
         const message = await checkPassword(adminName, adminPassword);
         setLoginMessage(message); 
+		if (message === "Login successful!") {
+			setTimeout(() => {
+                navigate('/admin-tasks');
+            }, 1000);
+		}
     } catch (err) {     
         setLoginMessage(err.message || "An error occurred during login.");
     }
