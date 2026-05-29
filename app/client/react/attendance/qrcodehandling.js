@@ -31,9 +31,9 @@ function startScanner() {
     });
 
     scanner.render((text) => {
-        document.getElementById("name").value = text.slice(4)
+        document.getElementById("student_firstname").value = text.slice(4)
 
-        document.getElementById("pin").value = text.slice(0, 4);
+        document.getElementById("login_id").value = text.slice(0, 4);
 
         stopScanner();
     });
