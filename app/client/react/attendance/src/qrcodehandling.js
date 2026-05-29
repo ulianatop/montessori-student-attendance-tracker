@@ -46,8 +46,8 @@ function startScanner() {
 }
 
 // Event Listeners
-document.getElementById('open-scanner').onclick = startScanner;
-document.getElementById('close-scanner').onclick = stopScanner;
+document.getElementById("open-scanner").onclick = startScanner;
+document.getElementById("close-scanner").onclick = stopScanner;
 
 
 // Use this for the scanner popup:
