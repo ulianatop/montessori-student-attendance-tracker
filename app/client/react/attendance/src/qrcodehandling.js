@@ -1,5 +1,6 @@
 let scanner = null;
 import { Html5QrcodeScanner } from "html5-qrcode";
+import QRCode from "qrcode";
 
 export async function stopScanner() {
     const modal = document.getElementById('scanner-modal');
@@ -22,7 +23,6 @@ export async function stopScanner() {
 }
 
 export function startScanner() {
-    console.log("BEES");
     const modal = document.getElementById('scanner-modal');
     if (modal) modal.style.display = 'flex';
 
@@ -48,6 +48,28 @@ export function startScanner() {
         if (loginElem) loginElem.value = pinText;
 
         stopScanner();
+    });
+}
+
+export function generate() {
+    
+    const pin = document.getElementById("login_id").value;
+    const firstName = document.getElementById("student_firstname").value;
+    const lastName = document.getElementById("student_lastname").value;
+
+    const code = pin + firstName + "-" + lastName;
+
+    // Generate QR code as Data URL
+    QRCode.toDataURL(code, function (err, url) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        console.log("QR URL:", url);
+
+        // Display in image
+        document.getElementById("qrImage").src = url;
     });
 }
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { findStudent } from "./attendancehandler";
 import { adminTasks } from "./administratortaskshandler";
 import { useNavigate } from 'react-router-dom';
-import { startScanner, stopScanner } from './qrcodehandling';
+import { generate, startScanner, stopScanner } from './qrcodehandling';
 
 
 export default function AttendanceTracker() {
@@ -83,6 +83,10 @@ export default function AttendanceTracker() {
               <input type="button" value="Scan QR code" id="open-scanner" onClick={startScanner}/>
             </div>
 
+            <div className="buttons">
+              <input type="button" value="Generate QR code" id="Generate" onClick={generate}/>
+            </div>
+
             <div
               id="scanner-modal"
               style={{
@@ -128,6 +132,10 @@ export default function AttendanceTracker() {
             <div id="result" className="center">
               {result}
               <div id="error"></div>
+            </div>
+
+            <div>
+              <img src="" id="qrImage" alt="QR code can appear here"/>
             </div>
           </fieldset>
         </form>
