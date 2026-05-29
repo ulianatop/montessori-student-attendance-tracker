@@ -1,8 +1,9 @@
 import "./attendancetracker.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { findStudent } from "./attendancehandler";
 import { adminTasks } from "./administratortaskshandler";
 import { useNavigate } from 'react-router-dom';
+import { startScanner, stopScanner } from './qrcodehandling';
 
 
 export default function AttendanceTracker() {
@@ -11,6 +12,17 @@ export default function AttendanceTracker() {
   const [lastName, setLastName] = useState("");
   const [result, setResult] = useState("");
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const openBtn = document.getElementById('open-scanner');
+  //   const closeBtn = document.getElementById('close-scanner');
+  //   openBtn?.addEventListener('click', startScanner);
+  //   closeBtn?.addEventListener('click', stopScanner);
+  //   return () => {
+  //     openBtn?.removeEventListener('click', startScanner);
+  //     closeBtn?.removeEventListener('click', stopScanner);
+  //   };
+  // }, []);
 
 
   return (
@@ -68,7 +80,7 @@ export default function AttendanceTracker() {
             </div>
 
             <div className="buttons">
-              <input type="button" value="Scan QR code" id="open-scanner" />
+              <input type="button" value="Scan QR code" id="open-scanner" onClick={startScanner}/>
             </div>
 
             <div
@@ -104,7 +116,8 @@ export default function AttendanceTracker() {
                     borderRadius: '5px',
                     cursor: 'pointer',
                     fontWeight: 'bold',
-                  }}>
+                  }}
+                  onClick={stopScanner}>
                   CLOSE [X]
                 </button>
 

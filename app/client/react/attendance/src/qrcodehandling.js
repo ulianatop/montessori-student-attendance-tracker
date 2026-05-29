@@ -1,6 +1,7 @@
 let scanner = null;
+import { Html5QrcodeScanner } from "html5-qrcode";
 
-async function stopScanner() {
+export async function stopScanner() {
     const modal = document.getElementById('scanner-modal');
 
     if (scanner) {
@@ -14,14 +15,16 @@ async function stopScanner() {
     }
 
     // 2. Hide the UI
-    modal.style.display = 'none';
+    if (modal) modal.style.display = 'none';
     // 3. Clean up the internal HTML to prevent "ghost" cameras
-    document.getElementById('reader').innerHTML = '';
+    const reader = document.getElementById('reader');
+    if (reader) reader.innerHTML = '';
 }
 
-function startScanner() {
+export function startScanner() {
+    console.log("BEES");
     const modal = document.getElementById('scanner-modal');
-    modal.style.display = 'flex';
+    if (modal) modal.style.display = 'flex';
 
     // Initialize new instance every time to avoid 'already running' errors
     scanner = new Html5QrcodeScanner("reader", {
@@ -36,18 +39,19 @@ function startScanner() {
         const firstName = text.slice(4, dashIndex);
         const lastName = text.slice(dashIndex + 1);
 
-        document.getElementById("student_firstname").value = firstName;
-        document.getElementById("student_lastname").value = lastName;
+        const firstElem = document.getElementById("student_firstname");
+        const lastElem = document.getElementById("student_lastname");
+        const loginElem = document.getElementById("login_id");
 
-        document.getElementById("login_id").value = pinText;
+        if (firstElem) firstElem.value = firstName;
+        if (lastElem) lastElem.value = lastName;
+        if (loginElem) loginElem.value = pinText;
 
         stopScanner();
     });
 }
 
-// Event Listeners
-document.getElementById("open-scanner").onclick = startScanner;
-document.getElementById("close-scanner").onclick = stopScanner;
+// Event listeners are attached from the React component after mount.
 
 
 // Use this for the scanner popup:
