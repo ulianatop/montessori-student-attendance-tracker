@@ -48,11 +48,22 @@ export function startScanner() {
         if (loginElem) loginElem.value = pinText;
 
         stopScanner();
+
+        (async () => {
+            const oldDiv = document.querySelector(".center");
+            const result = document.querySelector("#result");
+
+            const newDiv = await findStudent(oldDiv, result);
+
+            if (newDiv instanceof HTMLElement && oldDiv?.parentNode) {
+                oldDiv.replaceWith(newDiv);
+            }
+        })();
     });
 }
 
 export function generate() {
-    
+
     const pin = document.getElementById("login_id").value;
     const firstName = document.getElementById("student_firstname").value;
     const lastName = document.getElementById("student_lastname").value;
