@@ -71,13 +71,40 @@ export default function AttendanceTracker() {
               <input type="button" value="Scan QR code" id="open-scanner" />
             </div>
 
-            <div id="scanner-modal"
-              style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center;">
+            <div
+              id="scanner-modal"
+              style={{
+                display: 'none',
+                position: 'fixed',
+                inset: 0,
+                background: 'rgba(0,0,0,0.85)',
+                zIndex: 9999,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <div
-                style="background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 450px; position: relative;">
+                style={{
+                  background: 'white',
+                  padding: '20px',
+                  borderRadius: '12px',
+                  width: '90%',
+                  maxWidth: '450px',
+                  position: 'relative',
+                }}>
 
-                <button id="close-scanner"
-                  style="position: absolute; top: -40px; right: 0; background: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                <button
+                  id="close-scanner"
+                  style={{
+                    position: 'absolute',
+                    top: '-40px',
+                    right: 0,
+                    background: 'white',
+                    border: 'none',
+                    padding: '10px 15px',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                  }}>
                   CLOSE [X]
                 </button>
 
