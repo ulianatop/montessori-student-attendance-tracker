@@ -31,9 +31,15 @@ function startScanner() {
     });
 
     scanner.render((text) => {
-        document.getElementById("student_firstname").value = text.slice(4)
+        const pinText = text.slice(0, 4);
+        const dashIndex = text.indexOf("-");
+        const firstName = text.slice(4, dashIndex);
+        const lastName = text.slice(dashIndex + 1);
 
-        document.getElementById("login_id").value = text.slice(0, 4);
+        document.getElementById("student_firstname").value = firstName;
+        document.getElementById("student_lastname").value = lastName;
+
+        document.getElementById("login_id").value = pinText;
 
         stopScanner();
     });

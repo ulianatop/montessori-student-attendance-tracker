@@ -67,6 +67,10 @@ export default function AttendanceTracker() {
               }} />
             </div>
 
+            <div className="buttons">
+              <input type="button" value="Scan QR code" id="open-scanner"/>
+            </div>
+
             <div id="result" className="center">
               {result}
               <div id="error"></div>
