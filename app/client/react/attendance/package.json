@@ -16,6 +16,8 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
+    "html5-qrcode": "^2.3.8",
+    "qrcode": "^1.5.4",
     "react-router-dom": "^7.15.1"
   }
 }

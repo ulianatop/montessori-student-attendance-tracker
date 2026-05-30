@@ -1,10 +1,10 @@
 /* 
 Database starter for Montessori Student Attendance Tracker.
 It creates the current tables and adds sample data.
-*/
-    
-CREATE DATABASE IF NOT EXISTS montessori_attendance;
-USE montessori_attendance;
+*/CREATE DATABASE IF NOT EXISTS montessori_attendance_test;
+USE montessori_attendance_test;
+
+
 
 DROP TABLE IF EXISTS ADMIN_ACTION_TRACKING;
 DROP TABLE IF EXISTS ADMIN_LOGIN;

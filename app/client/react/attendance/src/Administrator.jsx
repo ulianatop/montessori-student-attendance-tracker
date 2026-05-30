@@ -20,12 +20,12 @@ export default function Administrator() {
 
       if (findStudentBtn) {
         console.log("Found the button inside DOM! Attaching listener...");
-        findStudentBtn.removeAttribute("onclick");
-        findStudentBtn.removeEventListener("click", findStudent);
-        findStudentBtn.addEventListener("click", findStudent);
+        findStudentBtn.removeEventListener("click", renderStudents);
+        findStudentBtn.addEventListener("click", renderStudents);
       }
     }
   }, [successMessage]);
+
 
   const handleButtonClick = async (e) => {
     const buttonName = e.target.name;
@@ -37,6 +37,12 @@ export default function Administrator() {
       }
       console.log("Selected adminTask:", adminTask);
       await adminTasks(adminTask, setSuccessMessage);
+	  
+  const renderStudents = async () => {
+    const oldDiv = document.querySelector("#DHTML");
+    await oldDiv.replaceWith(await findStudent(oldDiv));
+  }
+
     }
 
     if (buttonName === "go_back") {
@@ -44,9 +50,11 @@ export default function Administrator() {
     }
   };
 	
-  return (
-    <> 
-      <h1>Administrative Tasks</h1>
+
+return (
+<> 
+<h1>Administrative Tasks</h1>
+
 
       <div className="center">
         <div className="boxborder">
@@ -137,6 +145,7 @@ export default function Administrator() {
             <button type="button" name="go_back" onClick={handleButtonClick}>Go Back</button>
           </div>
 
+
           <div id="result" ref={resultRef}>
             <div dangerouslySetInnerHTML={{ __html: successMessage }} />
           </div>
@@ -145,3 +154,4 @@ export default function Administrator() {
     </>
   );
 }
+
