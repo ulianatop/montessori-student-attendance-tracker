@@ -56,6 +56,8 @@ label {
     width: 100%;
     box-sizing: border-box;
 	box-shadow: 5px 5px 10px 1px #000000;
+	color: white;
+	font-size: 20px;
 }
 
 .center {

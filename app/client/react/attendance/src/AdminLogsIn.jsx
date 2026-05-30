@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from 'react-router-dom';
-import "./attendancetracker.css";
+import "./administrator.css";
 import { checkPassword } from "./adminloginhandler";
 export default function AdminLogsIn(){
 	const [loginMessage, setLoginMessage] = useState("");
