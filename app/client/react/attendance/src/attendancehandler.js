@@ -1,7 +1,6 @@
 // attendancehandler.js
 
 export async function findStudent(oldDiv) {
-    // 1. Grab inputs safely
     const pinEl = document.getElementById("login_id");
     const firstEl = document.getElementById("student_firstname");
     const lastEl = document.getElementById("student_lastname");
@@ -15,13 +14,11 @@ export async function findStudent(oldDiv) {
     const first = firstEl.value.trim();
     const last = lastEl.value.trim();
 
-    // 2. Locate or dynamically build an error container so it doesn't crash
     let errorDiv = document.querySelector('#error');
     if (!errorDiv) {
         errorDiv = document.createElement("div");
         errorDiv.id = "error";
         errorDiv.style.marginBottom = "10px";
-        // Injected right above the fields container
         pinEl.parentNode.insertBefore(errorDiv, pinEl);
     }
 
@@ -33,7 +30,6 @@ export async function findStudent(oldDiv) {
 
     errorDiv.textContent = "";
 
-    // 3. Create display DOM layout structures
     const blockDiv = document.createElement("div");
     blockDiv.className = 'blockDiv';
     blockDiv.style.display = 'flex';
@@ -63,7 +59,6 @@ export async function findStudent(oldDiv) {
     parentContainer.appendChild(resetBtn);
 
     try {
-        // 4. Verify pin and student
         const studentAuthAdults = await fetch("http://localhost:3000/api/v1/studentAuthAdult", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -84,8 +79,6 @@ export async function findStudent(oldDiv) {
 
         const associationArray = data['studentAuthAdults'] || [];
 
-        // CRITICAL FIX: Changed from .forEach to sequential for...of loop 
-        // to block execution until all DOM nodes are fully fetched and built.
         for (const element of associationArray) {
             const studentId = element.StudentID;
             
@@ -131,7 +124,6 @@ export async function findStudent(oldDiv) {
             groupDiv.appendChild(childContainer);
         }
 
-        // 5. Explicitly replace the elements in the DOM right here
         if (oldDiv && oldDiv.parentNode) {
             oldDiv.replaceWith(blockDiv);
         }
@@ -144,4 +136,4 @@ export async function findStudent(oldDiv) {
         errorDiv.style.color = "red";
         return oldDiv;
     }
-};
+}
