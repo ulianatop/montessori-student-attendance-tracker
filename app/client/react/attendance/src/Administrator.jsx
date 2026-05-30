@@ -26,7 +26,11 @@ export default function Administrator() {
     }
   }, [successMessage]);
 
-
+const renderStudents = async () => {
+    const oldDiv = document.querySelector("#DHTML");
+    await oldDiv.replaceWith(await findStudent(oldDiv));
+  }
+  
   const handleButtonClick = async (e) => {
     const buttonName = e.target.name;
     
@@ -38,10 +42,7 @@ export default function Administrator() {
       console.log("Selected adminTask:", adminTask);
       await adminTasks(adminTask, setSuccessMessage);
 	  
-  const renderStudents = async () => {
-    const oldDiv = document.querySelector("#DHTML");
-    await oldDiv.replaceWith(await findStudent(oldDiv));
-  }
+  
 
     }
 
