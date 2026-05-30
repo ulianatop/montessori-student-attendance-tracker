@@ -1,5 +1,5 @@
 import "./administrator.css";
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { adminTasks } from "./administratortaskshandler";
 import { findStudent } from "./attendancehandler";
 import { useNavigate } from 'react-router-dom';
@@ -13,24 +13,6 @@ export default function Administrator() {
   const [adminTask, setAdminTask] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const resultRef = useCallback((node) => {
-    if (node !== null) {
-      const findStudentBtn = node.querySelector("#btn-find-student") || 
-                            node.querySelector("button");
-
-      if (findStudentBtn) {
-        console.log("Found the button inside DOM! Attaching listener...");
-        findStudentBtn.removeEventListener("click", renderStudents);
-        findStudentBtn.addEventListener("click", renderStudents);
-      }
-    }
-  }, [successMessage]);
-
-const renderStudents = async () => {
-    const oldDiv = document.querySelector("#DHTML");
-    await oldDiv.replaceWith(await findStudent(oldDiv));
-  }
-  
   const handleButtonClick = async (e) => {
     const buttonName = e.target.name;
     
@@ -41,21 +23,24 @@ const renderStudents = async () => {
       }
       console.log("Selected adminTask:", adminTask);
       await adminTasks(adminTask, setSuccessMessage);
-	  
-  
-
     }
 
     if (buttonName === "go_back") {
       navigate('/');
     }
   };
-	
+  const handleInjectedFormClick = async (e) => {
+    if (e.target && e.target.id === "btn-find-student") {
+      console.log("Find Student button caught via ID!");
+      
+      const oldDiv = document.querySelector("#DHTML") || e.target;
+      await findStudent(oldDiv);
+    }
+  };
 
-return (
-<> 
-<h1>Administrative Tasks</h1>
-
+  return (
+    <> 
+      <h1>Administrative Tasks</h1>
 
       <div className="center">
         <div className="boxborder">
@@ -146,8 +131,7 @@ return (
             <button type="button" name="go_back" onClick={handleButtonClick}>Go Back</button>
           </div>
 
-
-          <div id="result" ref={resultRef}>
+          <div id="result" onClick={handleInjectedFormClick}>
             <div dangerouslySetInnerHTML={{ __html: successMessage }} />
           </div>
         </div>
@@ -155,4 +139,3 @@ return (
     </>
   );
 }
-
