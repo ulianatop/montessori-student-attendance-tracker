@@ -1,45 +1,26 @@
-
+// attendancehandler.js
 
 export async function findStudent(oldDiv) {
+    const pinEl = document.getElementById("login_id");
+    const firstEl = document.getElementById("student_firstname");
+    const lastEl = document.getElementById("student_lastname");
 
-
-    // probably change these styles to css or seperate out into MVC
-    const blockDiv = document.createElement("div");
-    blockDiv.style = 'block';
-    blockDiv.className = 'blockDiv';
-    blockDiv.style.display = 'flex';
-    blockDiv.style.justifyContent = 'center';
-    blockDiv.style.margin = '20px';
-    const parentContainer = document.createElement("div");
-    blockDiv.appendChild(parentContainer);
-    const groupDiv = document.createElement("div");
-    groupDiv.className = 'studentGroup';
-    parentContainer.appendChild(groupDiv);
-    parentContainer.className = "newDiv";
-
-    parentContainer.style.display = 'flex';
-    parentContainer.style.flexFlow = 'column';
-    parentContainer.style.alignItems = 'center';
-    parentContainer.style.border = '1px solid blue'
-    parentContainer.style.backdropFilter = 'blur(3px)';
-
-    const resetBtn = document.createElement("button");
-    resetBtn.textContent = "Reset"
-    resetBtn.onclick = () => {
-        blockDiv.replaceWith(oldDiv);
-    }
-    parentContainer.appendChild(resetBtn);
-    const pin = document.getElementById("login_id").value.trim();
-    const first = document.getElementById("student_firstname").value.trim();
-    const last = document.getElementById("student_lastname").value.trim();
-
-    const resultDiv = document.getElementById("result");
-    const errorDiv = document.querySelector('#error');
-    if (!resultDiv) {
-        console.error("Main container #result not found.");
-        return;
+    if (!pinEl || !firstEl || !lastEl) {
+        console.error("Required input fields not found in DOM.");
+        return oldDiv;
     }
 
+    const pin = pinEl.value.trim();
+    const first = firstEl.value.trim();
+    const last = lastEl.value.trim();
+
+    let errorDiv = document.querySelector('#error');
+    if (!errorDiv) {
+        errorDiv = document.createElement("div");
+        errorDiv.id = "error";
+        errorDiv.style.marginBottom = "10px";
+        pinEl.parentNode.insertBefore(errorDiv, pinEl);
+    }
 
     if (!pin || !first || !last) {
         errorDiv.textContent = "Please enter PIN, first name and last name.";
@@ -49,8 +30,35 @@ export async function findStudent(oldDiv) {
 
     errorDiv.textContent = "";
 
+    const blockDiv = document.createElement("div");
+    blockDiv.className = 'blockDiv';
+    blockDiv.style.display = 'flex';
+    blockDiv.style.justifyContent = 'center';
+    blockDiv.style.margin = '20px';
+
+    const parentContainer = document.createElement("div");
+    parentContainer.className = "newDiv";
+    parentContainer.style.display = 'flex';
+    parentContainer.style.flexFlow = 'column';
+    parentContainer.style.alignItems = 'center';
+    parentContainer.style.border = '1px solid blue';
+    parentContainer.style.backdropFilter = 'blur(3px)';
+    blockDiv.appendChild(parentContainer);
+
+    const groupDiv = document.createElement("div");
+    groupDiv.className = 'studentGroup';
+    parentContainer.appendChild(groupDiv);
+
+    const resetBtn = document.createElement("button");
+    resetBtn.textContent = "Reset";
+    resetBtn.type = "button";
+    resetBtn.style.marginTop = "15px";
+    resetBtn.onclick = () => {
+        blockDiv.replaceWith(oldDiv);
+    };
+    parentContainer.appendChild(resetBtn);
+
     try {
-        // Verify pin and student
         const studentAuthAdults = await fetch("http://localhost:3000/api/v1/studentAuthAdult", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -62,38 +70,39 @@ export async function findStudent(oldDiv) {
         });
 
         const data = await studentAuthAdults.json();
-        // console.log(data);
 
         if (!data.success) {
-            errorDiv.textContent = data.message;
+            errorDiv.textContent = data.message || "Authentication failed.";
+            errorDiv.style.color = "red";
             return oldDiv;
         }
 
-        const associationArray = data['studentAuthAdults'];
+        const associationArray = data['studentAuthAdults'] || [];
 
-        associationArray.forEach(async element => {
+        for (const element of associationArray) {
             const studentId = element.StudentID;
+            
             const studentRes = await fetch(`http://localhost:3000/api/v1/student/${studentId}`, {
                 method: "GET"
             });
             const student = await studentRes.json();
+
             const childContainer = document.createElement("div");
-            const statusText = document.createElement("p");
             childContainer.className = 'childContainer';
             childContainer.style.display = 'flex';
             childContainer.style.flexDirection = 'row';
             childContainer.style.padding = '20px';
             childContainer.style.alignItems = 'center';
-            
 
-            statusText.textContent = `
-        ${student.StudentLastName}, 
-        ${student.StudentFirstName}:
-        `
+            const statusText = document.createElement("p");
+            statusText.textContent = `${student.StudentLastName}, ${student.StudentFirstName}: `;
             statusText.style.color = 'yellow';
+            statusText.style.marginRight = '10px';
+
             const attendanceBtn = document.createElement("input");
             attendanceBtn.type = 'button';
             attendanceBtn.value = student.AttendanceStatus;
+            
             attendanceBtn.onclick = async () => {
                 const currentStatus = attendanceBtn.value;
 
@@ -104,27 +113,27 @@ export async function findStudent(oldDiv) {
                         StudentID: student.StudentID,
                         AttendanceStatus: currentStatus
                     })
-                })
+                });
 
                 const newAttendance = await attendanceRes.json();
-
                 attendanceBtn.value = newAttendance['newAttendanceStatus'];
-            }
+            };
 
-            
-
-            // statusText.append(attendanceBtn);
             childContainer.appendChild(statusText);
             childContainer.appendChild(attendanceBtn);
             groupDiv.appendChild(childContainer);
+        }
 
+        if (oldDiv && oldDiv.parentNode) {
+            oldDiv.replaceWith(blockDiv);
+        }
 
-
-        });
         return blockDiv;
     
     } catch (error) {
         console.error("Error executing database lookup routing loop:", error);
-        displayDiv.textContent = "Server communication error.";
+        errorDiv.textContent = "Server communication error.";
+        errorDiv.style.color = "red";
+        return oldDiv;
     }
 }
