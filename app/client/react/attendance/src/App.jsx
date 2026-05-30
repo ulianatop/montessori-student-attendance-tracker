@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import AttendanceTracker from './AttendanceTracker';
+import AttendanceTracker from './AttendanceTracker.jsx';
 import Administrator from './Administrator.jsx';
 import AdminLogsIn from './AdminLogsIn.jsx';
 function App() {
