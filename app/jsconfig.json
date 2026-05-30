@@ -4,8 +4,8 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "target": "ESNext",
-    "noImplicitAny": false
+    "jsx": "react-jsx" //Tells the editor to understand React HTML-like syntax
   },
-  "include": ["**/*.mjs", "**/*.js"],
+  "include": ["**/*.mjs", "**/*.jsx", "**/*.js"],
   "exclude": ["node_modules"]
 }
