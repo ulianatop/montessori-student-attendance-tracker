@@ -42,7 +42,7 @@ return(
     <br />
     <label htmlFor="admin_password">Password:&nbsp;</label>
     <input
-      type="text"
+      type="password"
       id="admin_password"
       value={adminPassword}
       onChange={(e) => setAdminPassword(e.target.value)}
