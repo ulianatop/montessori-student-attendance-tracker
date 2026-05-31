@@ -4,7 +4,7 @@ This is a full-stack team coursework project for a Montessori student attendance
 
 ## My Contributions
 
-My contributions so far include database design, SQL setup, backend query planning, login/request handling, project documentation, and team collaboration using GitHub and Jira.
+My contributions so far include database design, SQL schema updates, backend query updates, PIN/student-name request handling, project documentation, and team collaboration using GitHub and Jira.
 
 ## Technologies Used
 
