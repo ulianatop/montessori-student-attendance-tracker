@@ -1,18 +1,54 @@
-Running the project
-1. Start the Apache and SQL servers in XAMMP
-2. install dependencies (enter "npm install" in /app, /app/server, /app/client/react/attendance directories)
-4. in /app enter `npm run dev`
-5. navigate to the vite server http://localhost:5173
+# Montessori Student Attendance Tracker
 
-OR
+This is a full-stack team coursework project for a Montessori student attendance check-in/check-out system. The app helps authorized adults check students in and out and keeps attendance records connected to student and adult information.
 
-run start.bat to automatically launch the app and page.
+## My Contributions
 
-Running Tests
+My contributions so far include database design, SQL setup, backend query planning, login/request handling, project documentation, and team collaboration using GitHub and Jira.
 
-This project uses a Vitest Workspace to separate frontend and backend tests. Run these commands from the root app/ folder:
+## Technologies Used
 
-1. Run sample test `npx vitest App.test.jsx`
-2. Run all tests: `npm test`
+* React
+* JavaScript
+* Node.js
+* Express
+* MySQL
+* REST API
+* Vitest
 
-Note: Backend tests require a local `montessori_attendance_test` database schema.
+## How to Run Locally
+
+Start the local MySQL server, then install dependencies:
+
+```bash
+cd app
+npm install
+
+cd server
+npm install
+
+cd ../client/react/attendance
+npm install
+```
+
+From the `app` folder, run:
+
+```bash
+npm run dev
+```
+
+Open the frontend:
+
+```text
+http://localhost:5173
+```
+
+The backend runs on:
+
+```text
+http://localhost:3000
+```
+
+## Status
+
+This project is still in progress. The main attendance workflow is working, but some admin features and UI polish are still being improved.
