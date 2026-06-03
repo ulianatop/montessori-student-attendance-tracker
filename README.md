@@ -4,7 +4,7 @@ This is a full-stack team coursework project for a Montessori student attendance
 
 ## My Contributions
 
-My contributions so far include database design, SQL schema updates, backend query updates, PIN/student-name request handling, project documentation, and team collaboration using GitHub and Jira.
+My contributions so far include database design, SQL schema updates, backend query updates, PIN/student-name request handling, project documentation, and team collaboration using.
 
 ## Technologies Used
 
@@ -37,16 +37,10 @@ From the `app` folder, run:
 npm run dev
 ```
 
-Open the frontend:
+Open the app:
 
 ```text
 http://localhost:5173
-```
-
-The backend runs on:
-
-```text
-http://localhost:3000
 ```
 
 ## Status
